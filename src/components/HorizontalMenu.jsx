@@ -18,7 +18,7 @@ export default function HorizontalMenu() {
 
 
     const showModal = () => {
-        setCounterAlert(0),
+        setCounterAlert(0)
         setIsModalVisible(true)
     };
 
@@ -36,18 +36,16 @@ export default function HorizontalMenu() {
                             <div style={{ color: 'white', textDecoration: 'none', textAlign: 'center' }}><img src={logo} alt="logo" style={{ width: 50, height: 50 }}/></div>
                         </Navbar.Brand>
                         <Nav>
-                            <Nav.Link>
+                            <Nav.Link onClick={showModal}>
                                 <Badge dot={alert} status="danger">
-                                    <Link to="/Alerts" onClick={showModal}>
-                                        <BellOutlined style={{ fontSize: 20 }}/>
-                                    </Link>
+                                    <BellOutlined style={{ fontSize: 20, color: '#1890ff' }}/>
                                 </Badge>
-                                <Modal title="My Alerts" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} centered={false}>
-                                    <Alert message="Informational Notes about other issue" type="info" showIcon style={{ padding: '5px 15px', marginBottom: 5 }} />
-                                    <Alert message="Informational Notes but nothing to see" type="info" showIcon style={{ padding: '5px 15px', marginBottom: 5 }} />
-                                    <Alert message="Informational Notes conquerors in the worlds" type="info" showIcon style={{ padding: '5px 15px', marginBottom: 5 }} />
-                                </Modal>
                             </Nav.Link>
+                            <Modal title="My Alerts" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} centered={false}>
+                                <Alert message="Informational Notes about other issue" type="info" showIcon style={{ padding: '5px 15px', marginBottom: 5 }} />
+                                <Alert message="Informational Notes but nothing to see" type="info" showIcon style={{ padding: '5px 15px', marginBottom: 5 }} />
+                                <Alert message="Informational Notes conquerors in the worlds" type="info" showIcon style={{ padding: '5px 15px', marginBottom: 5 }} />
+                            </Modal>
                             <Nav.Link>
                                 <Link to="/User">
                                     <UserOutlined style={{ fontSize: 20 }}/>
@@ -60,8 +58,8 @@ export default function HorizontalMenu() {
 
             </Switch>
 
-            <Route path="/User"></Route>
-            <Route path="/Alerts"></Route>
+            <Route exact path="/User"></Route>
+            <Route exact path="/Alerts"></Route>
         </Router>
     )
 }
