@@ -24,17 +24,6 @@ background: #fff;
     margin-top: 0;
 }
 
-.ant-modal {
-    width: 100% !important;
-}
-
-.ant-modal-content {
-    position: absolute;
-    right: 0;
-    top: -20px;
-    min-width: 400px;
-}
-
 .ant-modal-content svg {
     margin-bottom: 10px;
 }
@@ -43,6 +32,6 @@ background: #fff;
     height: 15px;
 }
 
-.ant-modal-footer {
+/* .ant-modal-footer {
     display: none;
-}
+} */

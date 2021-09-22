@@ -41,7 +41,7 @@ export default function HorizontalMenu() {
                                     <BellOutlined style={{ fontSize: 20, color: '#1890ff' }}/>
                                 </Badge>
                             </Nav.Link>
-                            <Modal title="My Alerts" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} centered={false}>
+                            <Modal title="My Alerts" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} width={'100%'} style={{ display: 'flex', justifyContent: 'end', top: 80 }}>
                                 <Alert message="Informational Notes about other issue" type="info" showIcon style={{ padding: '5px 15px', marginBottom: 5 }} />
                                 <Alert message="Informational Notes but nothing to see" type="info" showIcon style={{ padding: '5px 15px', marginBottom: 5 }} />
                                 <Alert message="Informational Notes conquerors in the worlds" type="info" showIcon style={{ padding: '5px 15px', marginBottom: 5 }} />
