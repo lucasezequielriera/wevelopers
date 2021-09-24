@@ -40,27 +40,27 @@ export default function VerticalMenu() {
                             </Menu.Item>
                             <SubMenu key="sub1" icon={<UserOutlined />} title="Personal">
                                 <Menu.Item key="3">
-                                    <Link to="/PersonalExpenses">Personal Expenses</Link>
+                                    <Link to="/Personal/Expenses">Expenses</Link>
                                 </Menu.Item>
                                 <Menu.Item key="4">
-                                    <Link to="/PersonalHome">Home</Link>
+                                    <Link to="/Personal/Home">Home</Link>
                                 </Menu.Item>
                                 <Menu.Item key="5">
-                                    <Link to="/PersonalFamily">Family</Link>
+                                    <Link to="/Personal/Family">Family</Link>
+                                </Menu.Item>
+                                <Menu.Item key="6">
+                                    <Link to="/Personal/Files">Files</Link>
                                 </Menu.Item>
                             </SubMenu>
                             <SubMenu key="sub2" icon={<TeamOutlined />} title="Professional">
-                                <Menu.Item key="6">
-                                    <Link to="/ProfessionalWork1">Work "1"</Link>
+                                <Menu.Item key="7">
+                                    <Link to="/Professional/Work1">Work 1</Link>
                                 </Menu.Item>
                                 <Menu.Item key="8">
-                                    <Link to="/ProfessionalWork2">Work "2"</Link>
+                                    <Link to="/Professional/Work2">Work 2</Link>
                                 </Menu.Item>
                             </SubMenu>
-                            <Menu.Item key="9" icon={<FileOutlined />}>
-                                <Link to="/PersonalFiles">Personal Files</Link>
-                            </Menu.Item>
-                            <Menu.Item key="10" icon={<SettingOutlined />}>
+                            <Menu.Item key="9" icon={<SettingOutlined />}>
                                 <Link to="/Settings">Settings</Link>
                             </Menu.Item>
                         </Menu>
@@ -69,12 +69,12 @@ export default function VerticalMenu() {
 
                             <Route exact path="/Dashboard"><Dashboard /></Route>
                             <Route exact path="/MyIssues"><MyIssues /></Route>
-                            <Route exact path="/PersonalExpenses"><PersonalExpenses /></Route>
-                            <Route exact path="/PersonalHome"><PersonalHome/></Route>
-                            <Route exact path="/PersonalFamily"><PersonalFamily/></Route>
-                            <Route exact path="/PersonalFiles"><PersonalFiles/></Route>
-                            <Route exact path="/ProfessionalWork1"><ProfessionalWork1/></Route>
-                            <Route exact path="/ProfessionalWork2"><ProfessionalWork2/></Route>
+                            <Route exact path="/Personal/Expenses"><PersonalExpenses /></Route>
+                            <Route exact path="/Personal/Home"><PersonalHome/></Route>
+                            <Route exact path="/Personal/Family"><PersonalFamily/></Route>
+                            <Route exact path="/Personal/Files"><PersonalFiles/></Route>
+                            <Route exact path="/Professional/Work1"><ProfessionalWork1/></Route>
+                            <Route exact path="/Professional/Work2"><ProfessionalWork2/></Route>
                             <Route exact path="/Settings"><Settings/></Route>
                             <Route exact path="/"></Route>
 

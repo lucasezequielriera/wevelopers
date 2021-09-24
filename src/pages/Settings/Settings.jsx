@@ -1,10 +1,14 @@
-import React from 'react';
-import { Layout, Breadcrumb } from 'antd';
+import React, {useState, useEffect} from 'react';
+import { Layout, Breadcrumb, Avatar, Form, Input, Button, Radio, Select, Cascader, DatePicker, InputNumber, TreeSelect, Switch, Tooltip, Upload } from 'antd';
+import { UserOutlined, InfoCircleOutlined, EyeInvisibleOutlined, EyeTwoTone, CheckOutlined, KeyOutlined } from '@ant-design/icons';
+import logo from '../../assets/images/logo.png'
+
 
 export default function Settings() {
 
     const { Content } = Layout;
 
+    const [buttonState, setButtonState] = useState(true)
 
     return (
         <Content style={{ margin: '0 16px' }}>
@@ -12,8 +16,26 @@ export default function Settings() {
                 <Breadcrumb.Item>User</Breadcrumb.Item>
                 <Breadcrumb.Item>Settings</Breadcrumb.Item>
             </Breadcrumb>
-            <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-            Bill is a cat.
+            <div style={{ padding: 24, minHeight: 200, display: 'flex', flexFlow: 'column nowrap', justifyContent: 'center', alignItems: 'center' }}>
+            <Avatar size={130} icon={<UserOutlined />} src={null} style={{ backgroundColor: '#cdcdcd' }} />
+            <Input style={{ width: 350, marginTop: 20 }} onChange={(change) => {change.target.value.length >= 1 ? setButtonState(false) : setButtonState(true)}} placeholder="Enter your full name"/>
+            <Input style={{ width: 350, marginTop: 10 }} onChange={(change) => {change.target.value.length >= 1 ? setButtonState(false) : setButtonState(true)}} placeholder="Enter your age"/>
+            <Input style={{ width: 350, marginTop: 10 }} onChange={(change) => {change.target.value.length >= 1 ? setButtonState(false) : setButtonState(true)}} placeholder="Enter your city"/>
+            <Input style={{ width: 350, marginTop: 10 }} onChange={(change) => {change.target.value.length >= 1 ? setButtonState(false) : setButtonState(true)}} placeholder="Enter your username" prefix={ <UserOutlined className="site-form-item-icon" style={{ color: 'rgb(0,142,250)' }} /> }
+            suffix={
+                <Tooltip title="name@email.com or username">
+                    <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
+                </Tooltip>}
+            />
+            <Input.Password style={{ width: 350, marginTop: 10 }} onChange={(change) => {change.target.value.length >= 1 ? setButtonState(false) : setButtonState(true)}} placeholder="Enter your password" prefix={<KeyOutlined className="site-form-item-icon"className="site-form-item-icon" style={{ color: 'rgb(0,142,250)' }} />} iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)} suffix={
+                <Tooltip title="Your password">
+                    <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
+                </Tooltip>
+                }
+            />
+            <Button type="primary" htmlType="submit" style={{ marginTop: 10, width: 150 }} disabled={buttonState}>
+                Confirm details
+            </Button>
             </div>
         </Content>
     )

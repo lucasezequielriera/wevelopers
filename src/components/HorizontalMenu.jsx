@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import logo from '../assets/images/logo.png';
+import logo from '../assets/images/wevelopers_fondo_negro.png';
 import { UserOutlined, BellOutlined } from '@ant-design/icons';
 import { Badge, Modal, Alert } from 'antd';
 import { Nav, Navbar } from 'react-bootstrap';
@@ -32,8 +32,8 @@ export default function HorizontalMenu() {
 
                 <Navbar variant="dark" style={{ backgroundColor: 'rgb(0, 21, 40)' }}>
                     <div style={{ margin: '0 10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' ,maxWidth: '100%'}}>
-                        <Navbar.Brand style={{ width: 158 }}>
-                            <div style={{ color: 'white', textDecoration: 'none', textAlign: 'center' }}><img src={logo} alt="logo" style={{ width: 50, height: 50 }}/></div>
+                        <Navbar.Brand style={{ width: 180 }}>
+                            <div style={{ color: 'white', textDecoration: 'none', textAlign: 'center' }}><img src={logo} alt="logo" style={{ width: 150, height: 50 }}/></div>
                         </Navbar.Brand>
                         <Nav>
                             <Nav.Link onClick={showModal}>
