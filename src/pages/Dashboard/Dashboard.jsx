@@ -73,11 +73,13 @@ export default function Dashboard() {
             <hr />
             <div style={{ display: 'flex', flexFlow: 'row' }}>
                 <div style={{ width: '50%', padding: 24, minHeight: 360 }}>
-                  <h5>Porcentaje de Ingresos Gastados</h5>
-                  <hr />
+                  <h5>Percentage of Income Spent</h5>
+                  <hr style={{ marginBottom: 35 }} />
                   <Pie {...config} />
                 </div>
                 <div style={{ width: '50%', padding: 24, minHeight: 360 }}>
+                  <h5>Account Summary</h5>
+                  <hr style={{ marginBottom: 35 }} />
                   <Row>
                       <Col sm>
                           <h6>Total Ingresos Mes Actual</h6><hr />

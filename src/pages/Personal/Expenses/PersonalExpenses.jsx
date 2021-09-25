@@ -1,8 +1,9 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
 import { Layout, Breadcrumb, Table, Input, Button, Popconfirm, Form, Tooltip } from 'antd';
 import { Column } from '@ant-design/charts';
-import { DownloadOutlined, EditOutlined } from '@ant-design/icons';
+import { DownloadOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 import { Row, Col } from 'react-bootstrap'
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 export default function PersonalExpenses() {
 
@@ -56,18 +57,24 @@ export default function PersonalExpenses() {
                   <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between' }}>
                     <h5 style={{ alignSelf: 'center', marginBottom: 0 }}>My Personal Expenses</h5>
                     <div style={{ display: 'flex', flexFlow: 'row nowrap' }}>
-                      <Tooltip title="Edit data">
-                        <Button type="primary" shape="circle" icon={<EditOutlined /> } size='large' onClick={downloadImage} />
-                      </Tooltip>
                       <Tooltip title="Download graph">
                         <Button type="primary" shape="circle" icon={<DownloadOutlined /> } size='large' onClick={downloadImage} style={{ marginLeft: 5 }} />
                       </Tooltip>
                     </div>
                   </div>
-                  <hr />
+                  <hr style={{ marginBottom: 35 }} />
                   <Column {...config} onReady={(plot) => { ref.current = plot }}/>
                 </div>
                 <div style={{ width: '50%', padding: 24, minHeight: 360 }}>
+                  <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between' }}>
+                    <h5 style={{ alignSelf: 'center', marginBottom: 0 }}>Total Expenses</h5>
+                    <div style={{ display: 'flex', flexFlow: 'row nowrap' }}>
+                      <Tooltip title="See Data">
+                        <Link to="/Personal/Expenses/ExpensesData"><Button type="primary" shape="circle" icon={<EyeOutlined /> } size='large' /></Link>
+                      </Tooltip>
+                    </div>
+                  </div>
+                  <hr style={{ marginBottom: 35 }} />
                   <Row>
                       <Col sm>
                           <h6>Total Ingresos Mes Actual</h6><hr />

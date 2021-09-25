@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import logo from '../assets/images/wevelopers_fondo_negro.png';
+import logo from '../../assets/images/wevelopers_fondo_negro.png';
 import { UserOutlined, BellOutlined } from '@ant-design/icons';
 import { Badge, Modal, Alert } from 'antd';
 import { Nav, Navbar } from 'react-bootstrap';
@@ -54,7 +54,6 @@ export default function HorizontalMenu() {
                         </Nav>
                     </div>
                 </Navbar>
-
 
             </Switch>
 

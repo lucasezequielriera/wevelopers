@@ -3,15 +3,16 @@ import { Layout, Menu } from 'antd';
 import { DesktopOutlined, PieChartOutlined, FileOutlined, TeamOutlined, UserOutlined, SettingOutlined } from '@ant-design/icons';
 import './styles.css';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import Dashboard from '../pages/Dashboard/Dashboard';
-import MyIssues from '../pages/MyIssues/MyIssues';
-import PersonalExpenses from '../pages/Personal/Expenses/PersonalExpenses';
-import PersonalFamily from '../pages/Personal/Family/PersonalFamily';
-import PersonalHome from '../pages/Personal/Home/PersonalHome';
-import PersonalFiles from '../pages/Personal/Files/PersonalFiles';
-import ProfessionalWork1 from '../pages/Professional/Work1/ProfessionalWork1';
-import ProfessionalWork2 from '../pages/Professional/Work2/ProfessionalWork2';
-import Settings from '../pages/Settings/Settings';
+import Dashboard from '../../pages/Dashboard/Dashboard';
+import MyIssues from '../../pages/MyIssues/MyIssues';
+import PersonalExpenses from '../../pages/Personal/Expenses/PersonalExpenses';
+import PersonalFamily from '../../pages/Personal/Family/PersonalFamily';
+import PersonalHome from '../../pages/Personal/Home/PersonalHome';
+import PersonalFiles from '../../pages/Personal/Files/PersonalFiles';
+import ProfessionalWork1 from '../../pages/Professional/Work1/ProfessionalWork1';
+import ProfessionalWork2 from '../../pages/Professional/Work2/ProfessionalWork2';
+import Settings from '../../pages/Settings/Settings';
+import PersonalExpensesData from '../../pages/Personal/Expenses/PersonalExpensesData';
 
 export default function VerticalMenu() {
 
@@ -67,16 +68,17 @@ export default function VerticalMenu() {
                     </Sider>
                     <Layout className="site-layout">
 
-                            <Route exact path="/Dashboard"><Dashboard /></Route>
-                            <Route exact path="/MyIssues"><MyIssues /></Route>
-                            <Route exact path="/Personal/Expenses"><PersonalExpenses /></Route>
-                            <Route exact path="/Personal/Home"><PersonalHome/></Route>
-                            <Route exact path="/Personal/Family"><PersonalFamily/></Route>
-                            <Route exact path="/Personal/Files"><PersonalFiles/></Route>
-                            <Route exact path="/Professional/Work1"><ProfessionalWork1/></Route>
-                            <Route exact path="/Professional/Work2"><ProfessionalWork2/></Route>
-                            <Route exact path="/Settings"><Settings/></Route>
-                            <Route exact path="/"></Route>
+                        <Route exact path="/Dashboard"><Dashboard /></Route>
+                        <Route exact path="/MyIssues"><MyIssues /></Route>
+                        <Route exact path="/Personal/Expenses/ExpensesData"><PersonalExpensesData /></Route>
+                        <Route exact path="/Personal/Expenses"><PersonalExpenses /></Route>
+                        <Route exact path="/Personal/Home"><PersonalHome/></Route>
+                        <Route exact path="/Personal/Family"><PersonalFamily/></Route>
+                        <Route exact path="/Personal/Files"><PersonalFiles/></Route>
+                        <Route exact path="/Professional/Work1"><ProfessionalWork1/></Route>
+                        <Route exact path="/Professional/Work2"><ProfessionalWork2/></Route>
+                        <Route exact path="/Settings"><Settings/></Route>
+                        <Route exact path="/"></Route>
 
                         <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
                     </Layout>

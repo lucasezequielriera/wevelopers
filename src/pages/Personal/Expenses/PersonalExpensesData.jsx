@@ -1,16 +1,14 @@
-import React, { useState, useEffect, useContext, useRef } from 'react';
-import { Table, Layout, Breadcrumb, Tag, Space, Button, Tooltip, Modal, Form, Input, Popconfirm, InputNumber, Typography, notification } from 'antd';
+import React, { useContext, useState, useEffect, useRef } from 'react';
+import { Layout, Breadcrumb, Input, Button, Popconfirm, Form, Table, Tag, Space, Tooltip, Modal, InputNumber, Typography, notification } from 'antd';
 import { CheckCircleOutlined, SyncOutlined, ClockCircleOutlined, AppstoreAddOutlined, LoadingOutlined, SmileOutlined, RiseOutlined, MinusOutlined, FallOutlined, WarningOutlined } from '@ant-design/icons';
+import { Column } from '@ant-design/charts';
+import { DownloadOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content'
-import './index.css';
+import { Row, Col } from 'react-bootstrap'
 
-    export default function MyIssues() {
+export default function PersonalExpensesData() {
 
-        // const originData = [];
-    // // Table
     const { Content } = Layout;
-    // const { Column } = Table;
 
     const [originData, setOriginData] = useState([
         {
@@ -150,19 +148,19 @@ import './index.css';
                 editable: true,
                 render: priorities => {
                     if (priorities === 'High') {
-                        return <Tag icon={<RiseOutlined />} color="red" key={priorities}>
+                        return <Tag icon={<RiseOutlined />} color="red" key={priorities} style={{ marginRight: 0 }}>
                             {priorities}
                         </Tag>
                     } else if (priorities === 'Medium') {
-                        return <Tag icon={<MinusOutlined />} color="yellow" key={priorities}>
+                        return <Tag icon={<MinusOutlined />} color="yellow" key={priorities} style={{ marginRight: 0 }}>
                             {priorities}
                         </Tag>
                     } else if (priorities === 'Low') {
-                        return <Tag icon={<FallOutlined />} color="cyan" key={priorities}>
+                        return <Tag icon={<FallOutlined />} color="cyan" key={priorities} style={{ marginRight: 0 }}>
                             {priorities}
                         </Tag>
                     } else {
-                        return <Tag icon={<WarningOutlined />} color="purple" key={priorities}>
+                        return <Tag icon={<WarningOutlined />} color="purple" key={priorities} style={{ marginRight: 0 }}>
                         {priorities}
                     </Tag>
                     }
@@ -175,23 +173,22 @@ import './index.css';
                 editable: true,
                 render: tag => {
                     if (tag === 'Done') {
-                        return <Tag icon={<CheckCircleOutlined />} color="green" key={tag}>
+                        return <Tag icon={<CheckCircleOutlined />} color="green" key={tag} style={{ marginRight: 0 }}>
                             {tag}
                                 </Tag>
                     } else if (tag === 'Doing') {
-                        return <Tag icon={<SyncOutlined spin />} color="blue" key={tag}>
+                        return <Tag icon={<SyncOutlined spin />} color="blue" key={tag} style={{ marginRight: 0 }}>
                             {tag}
                                 </Tag>
                     } else if (tag === 'To do') {
-                        return <Tag icon={<ClockCircleOutlined />} color="default" key={tag}>
+                        return <Tag icon={<ClockCircleOutlined />} color="default" key={tag} style={{ marginRight: 0 }}>
                             {tag}
                                 </Tag>
                     } else if (tag !== 'Done' && tag !== 'Doing' && tag !== 'To do') {
-                        return <Tag icon={<LoadingOutlined />} color="default" key={tag}>
+                        return <Tag icon={<LoadingOutlined />} color="default" key={tag} style={{ marginRight: 0 }}>
                             {tag}
                                 </Tag>
                     }
-                    console.log(tag)
                 },
             },
             {
@@ -261,6 +258,7 @@ import './index.css';
         return (
           <Form form={form} component={false}>
             <Table
+            size={'small'}
               components={{
                 body: {
                   cell: EditableCell,
@@ -341,16 +339,61 @@ import './index.css';
         <Content style={{ margin: '0 16px' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>
                 <Breadcrumb.Item>User</Breadcrumb.Item>
-                <Breadcrumb.Item>My Issues</Breadcrumb.Item>
+                <Breadcrumb.Item>Personal</Breadcrumb.Item>
+                <Breadcrumb.Item>My Expenses</Breadcrumb.Item>
             </Breadcrumb>
             <hr />
-            <div style={{ padding: 24, minHeight: 360 }}>
-                <h5>All Issues</h5>
-                    <hr style={{ marginBottom: 35 }} />
-                <Tooltip title="Add Issue">
-                    <Button type="primary" shape="circle" icon={<AppstoreAddOutlined />} size="large" onClick={createIssue} style={{ marginBottom: 10 }}/>
-                </Tooltip>
-                <EditableTable />
+            <div>
+              <h5>Percentage of Income Spent</h5>
+                <hr style={{ marginBottom: 35 }} />
+                <Row>
+                  <Col className="gutter-row" span={6} lg>
+                        <h6>Total Ingresos Mes Actual</h6><hr />
+                        <Tooltip title="Add Issue">
+                            <Button type="primary" shape="circle" icon={<AppstoreAddOutlined />} size="large" onClick={createIssue} style={{ marginBottom: 10 }}/>
+                        </Tooltip>
+                      <EditableTable />
+                  </Col>
+                  <Col className="gutter-row" span={6} lg>
+                        <h6>Total Gastos Mes Actual</h6><hr />
+                        <Tooltip title="Add Issue">
+                            <Button type="primary" shape="circle" icon={<AppstoreAddOutlined />} size="large" onClick={createIssue} style={{ marginBottom: 10 }}/>
+                        </Tooltip>
+                      <EditableTable />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col className="gutter-row" span={6} lg>
+                        <h6>Total Ingresos Mes Actual</h6><hr />
+                        <Tooltip title="Add Issue">
+                            <Button type="primary" shape="circle" icon={<AppstoreAddOutlined />} size="large" onClick={createIssue} style={{ marginBottom: 10 }}/>
+                        </Tooltip>
+                      <EditableTable />
+                  </Col>
+                  <Col className="gutter-row" span={6} lg>
+                        <h6>Total Gastos Mes Actual</h6><hr />
+                        <Tooltip title="Add Issue">
+                            <Button type="primary" shape="circle" icon={<AppstoreAddOutlined />} size="large" onClick={createIssue} style={{ marginBottom: 10 }}/>
+                        </Tooltip>
+                      <EditableTable />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col className="gutter-row" span={6} lg>
+                        <h6>Total Ingresos Mes Actual</h6><hr />
+                        <Tooltip title="Add Issue">
+                            <Button type="primary" shape="circle" icon={<AppstoreAddOutlined />} size="large" onClick={createIssue} style={{ marginBottom: 10 }}/>
+                        </Tooltip>
+                      <EditableTable />
+                  </Col>
+                  <Col className="gutter-row" span={6} lg>
+                        <h6>Total Gastos Mes Actual</h6><hr />
+                        <Tooltip title="Add Issue">
+                            <Button type="primary" shape="circle" icon={<AppstoreAddOutlined />} size="large" onClick={createIssue} style={{ marginBottom: 10 }}/>
+                        </Tooltip>
+                      <EditableTable />
+                  </Col>
+                </Row>
             </div>
         </Content>
     )
