@@ -1,7 +1,6 @@
-import React, {useState, useEffect} from 'react';
-import { Layout, Breadcrumb, Avatar, Form, Input, Button, Radio, Select, Cascader, DatePicker, InputNumber, TreeSelect, Switch, Tooltip, Upload } from 'antd';
-import { UserOutlined, InfoCircleOutlined, EyeInvisibleOutlined, EyeTwoTone, CheckOutlined, KeyOutlined } from '@ant-design/icons';
-import logo from '../../assets/images/logo.png'
+import React, { useState } from 'react';
+import { Layout, Breadcrumb, Avatar, Input, Button, Tooltip } from 'antd';
+import { UserOutlined, InfoCircleOutlined, EyeInvisibleOutlined, EyeTwoTone, KeyOutlined } from '@ant-design/icons';
 
 
 export default function Settings() {
@@ -33,7 +32,7 @@ export default function Settings() {
                 </Tooltip>}
             defaultValue="lucasezequielriera@hotmail.com"/>
             {/* Password */}
-            <Input.Password style={{ width: 350, marginTop: 10 }} onChange={(change) => {change.target.value.length >= 1 ? setButtonState(false) : setButtonState(true)}} placeholder="Enter your password" prefix={<KeyOutlined className="site-form-item-icon"className="site-form-item-icon" style={{ color: 'rgb(0,142,250)' }} />} iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)} suffix={
+            <Input.Password style={{ width: 350, marginTop: 10, color: 'rgb(0,142,250)' }} onChange={(change) => {change.target.value.length >= 1 ? setButtonState(false) : setButtonState(true)}} placeholder="Enter your password" prefix={<KeyOutlined className="site-form-item-icon" />} iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)} suffix={
                 <Tooltip title="Your password">
                     <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
                 </Tooltip>

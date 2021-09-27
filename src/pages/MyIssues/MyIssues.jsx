@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useContext, useRef } from 'react';
-import { Table, Layout, Breadcrumb, Tag, Space, Button, Tooltip, Modal, Form, Input, Popconfirm, InputNumber, Typography, notification } from 'antd';
-import { CheckCircleOutlined, SyncOutlined, ClockCircleOutlined, AppstoreAddOutlined, LoadingOutlined, SmileOutlined, RiseOutlined, MinusOutlined, FallOutlined, WarningOutlined } from '@ant-design/icons';
+import React, { useState } from 'react';
+import { Table, Layout, Breadcrumb, Tag, Space, Button, Tooltip, Form, Input, Popconfirm, InputNumber, Typography, notification } from 'antd';
+import { CheckCircleOutlined, SyncOutlined, ClockCircleOutlined, AppstoreAddOutlined, LoadingOutlined, RiseOutlined, MinusOutlined, FallOutlined, WarningOutlined } from '@ant-design/icons';
 import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content'
 import './index.css';
 
     export default function MyIssues() {
@@ -210,8 +209,10 @@ import './index.css';
                         <Tag
                             size="middle"
                             color="green"
-                            href="javascript:;"
-                            onClick={() => save(record.key)}
+                            onClick={(e) => {
+                                e.preventDefault()
+                                save(record.key)
+                            }}
                             style={{ marginRight: 8, cursor: 'pointer' }}>
                             Save
                         </Tag>
@@ -242,6 +243,7 @@ import './index.css';
                 },
             },
         ];
+
         const mergedColumns = columns.map((col) => {
           if (!col.editable) {
             return col;
@@ -258,6 +260,7 @@ import './index.css';
             }),
           };
         });
+
         return (
           <Form form={form} component={false}>
             <Table

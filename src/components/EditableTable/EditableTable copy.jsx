@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import { Input, Button, Popconfirm, Form, Table, Tag, Space, Tooltip, InputNumber, Typography, notification } from 'antd';
-import { CheckCircleOutlined, AppstoreAddOutlined } from '@ant-design/icons';
+import { CheckCircleOutlined, SyncOutlined, ClockCircleOutlined, AppstoreAddOutlined, LoadingOutlined, RiseOutlined, MinusOutlined, FallOutlined, WarningOutlined } from '@ant-design/icons';
 import Swal from 'sweetalert2';
-import moment from 'moment';
 
 const EditableTable = ({ tableSize, data, marginBottom, title }) => {
 
@@ -60,7 +59,7 @@ const EditableTable = ({ tableSize, data, marginBottom, title }) => {
     const edit = (record) => {
         form.setFieldsValue({
             priority: '',
-            title: '',
+            description: '',
             tags: '',
             ...record,
         });
@@ -95,93 +94,64 @@ const EditableTable = ({ tableSize, data, marginBottom, title }) => {
     
     const columns = [
         {
-            title: 'Title',
-            dataIndex: 'title',
-            width: '44%',
-            editable: true,
-        },
-        {
-            title: 'Date',
-            dataIndex: 'date',
-            width: '10%',
+            title: 'Priority',
+            dataIndex: 'priority',
+            width: '7%',
             editable: true,
             render: priorities => {
                 if (priorities === 'High') {
-                    return <Tag color="red" key={priorities} style={{ margin: 0 }}>
+                    return <Tag icon={<RiseOutlined />} color="red" key={priorities}>
                         {priorities}
                     </Tag>
                 } else if (priorities === 'Medium') {
-                    return <Tag color="yellow" key={priorities} style={{ margin: 0 }}>
+                    return <Tag icon={<MinusOutlined />} color="yellow" key={priorities}>
                         {priorities}
                     </Tag>
                 } else if (priorities === 'Low') {
-                    return <Tag color="cyan" key={priorities} style={{ margin: 0 }}>
+                    return <Tag icon={<FallOutlined />} color="cyan" key={priorities}>
                         {priorities}
                     </Tag>
                 } else {
-                    return <Tag color="default" key={priorities} style={{ margin: 0 }}>
+                    return <Tag icon={<WarningOutlined />} color="purple" key={priorities}>
                     {priorities}
                 </Tag>
                 }
             },
         },
         {
-            title: 'Payments',
-            dataIndex: 'payments',
-            width: '10%',
+            title: 'State',
+            dataIndex: 'tags',
+            width: '7%',
             editable: true,
             render: tag => {
-                if (tag === '3 of 3' || tag === '6 of 6' || tag === '12 of 12') {
-                    return <Tag color="green" key={tag} style={{ margin: 0 }}>
+                if (tag === 'Done') {
+                    return <Tag icon={<CheckCircleOutlined />} color="green" key={tag}>
                         {tag}
                             </Tag>
-                } else if (tag === '1 of 3' || tag === '1 of 6' || tag === '1 of 12') {
-                    return <Tag color="red" key={tag} style={{ margin: 0 }}>
+                } else if (tag === 'Doing') {
+                    return <Tag icon={<SyncOutlined spin />} color="blue" key={tag}>
                         {tag}
                             </Tag>
-                } else {
-                    return <Tag color="orange" key={tag} style={{ margin: 0 }}>
+                } else if (tag === 'To do') {
+                    return <Tag icon={<ClockCircleOutlined />} color="default" key={tag}>
+                        {tag}
+                            </Tag>
+                } else if (tag !== 'Done' && tag !== 'Doing' && tag !== 'To do') {
+                    return <Tag icon={<LoadingOutlined />} color="default" key={tag}>
                         {tag}
                             </Tag>
                 }
             },
         },
         {
-            title: 'Amount',
-            dataIndex: 'amount',
-            width: '10%',
+            title: 'Description',
+            dataIndex: 'description',
+            width: '75%',
             editable: true,
-            render: tag => {
-                return <Tag color="blue" key={tag} style={{ margin: 0 }}>
-                        {tag}
-                            </Tag>
-            },
-        },
-        {
-            title: 'Paid',
-            dataIndex: 'paid',
-            width: '10%',
-            editable: true,
-            render: tag => {
-                if (tag === 'Yes' || tag === 'yes') {
-                    return <Tag color="green" key={tag} style={{ margin: 0 }}>
-                        {tag}
-                            </Tag>
-                } else if (tag === 'No' || tag === 'no') {
-                    return <Tag color="red" key={tag} style={{ margin: 0 }}>
-                        {tag}
-                            </Tag>
-                } else {
-                    return <Tag color="orange" key={tag} style={{ margin: 0 }}>
-                        {tag}
-                            </Tag>
-                }
-            },
         },
         {
             title: 'Operations',
             dataIndex: 'operation',
-            width: '16%',
             render: (_, record) => {
             const editable = isEditing(record);
             return editable ? (
@@ -206,15 +176,15 @@ const EditableTable = ({ tableSize, data, marginBottom, title }) => {
                 <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-evenly' }}>
                     <Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)}>
                         <Space>
-                            <Button type="primary" size="small" ghost>
-                                edit
+                            <Button type="primary" ghost>
+                                Edit
                             </Button>
                         </Space>
                     </Typography.Link>
                     <Typography.Link onClick={() => handleDelete(record.key)}>
                         <Space>
-                            <Button type="primary" size="small" danger ghost>
-                                delete
+                            <Button type="primary" danger ghost>
+                                Delete
                             </Button>
                         </Space>
                     </Typography.Link>
@@ -250,31 +220,51 @@ const EditableTable = ({ tableSize, data, marginBottom, title }) => {
 
     // Create Issue
     const createIssue = () => {
+        let valor1 = "";
         let valor2 = "";
 
+        const inputOptions = {
+            'Low': 'Low',
+            'Medium': 'Medium',
+            'High': 'High'
+        }
         Swal.fire({
-            title: 'Enter the title',
-            input: 'text',
+            title: 'Select state',
+            input: 'radio',
+            inputOptions: inputOptions,
             showCancelButton: false,
             confirmButtonColor: '#3085d6',
-            confirmButtonText: 'Add Issue',
+            confirmButtonText: 'Next',
             backdrop: 'rgba(0,0,0,0.8)',
             inputValidator: (value) => {
-            if (!value) {
-                return 'You need to write something!'
-            } else {
-                valor2 = value;
-                const objetoNuevo = {
-                    id: originData.length + 1,
-                    key: String((originData.length + 1)),
-                    title: valor2 ? valor2 : 'Write something, please',
-                    date: moment().format('DD/MM/YYYY'),
-                    payments: '-',
-                    amount: '-',
-                    paid: 'No',
-                    edit: false,
-                    }
-                    setOriginData([...originData, objetoNuevo])
+                if (!value) {
+                return 'You need to choose something state'
+                } else {
+                    valor1 = value;
+                    Swal.fire({
+                        title: 'Enter your description',
+                        input: 'text',
+                        showCancelButton: false,
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Add Issue',
+                        backdrop: 'rgba(0,0,0,0.8)',
+                        inputValidator: (value) => {
+                        if (!value) {
+                            return 'You need to write something!'
+                        } else {
+                            valor2 = value;
+                            const objetoNuevo = {
+                                id: originData.length + 1,
+                                key: String((originData.length + 1)),
+                                priority: valor1 ? valor1 : 'Low',
+                                description: valor2 ? valor2 : 'Write something, please',
+                                tags: 'To do',
+                                edit: false,
+                                }
+                                setOriginData([...originData, objetoNuevo])
+                            }
+                        }
+                    })
                 }
             }
         })

@@ -1,9 +1,9 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
-import { Layout, Breadcrumb, Table, Input, Button, Popconfirm, Form, Tooltip } from 'antd';
+import React, { useRef } from 'react';
+import { Layout, Breadcrumb, Button, Tooltip } from 'antd';
 import { Column } from '@ant-design/charts';
-import { DownloadOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
+import { DownloadOutlined, EyeOutlined } from '@ant-design/icons';
 import { Row, Col } from 'react-bootstrap'
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export default function PersonalExpenses() {
 
@@ -69,8 +69,8 @@ export default function PersonalExpenses() {
                   <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between' }}>
                     <h5 style={{ alignSelf: 'center', marginBottom: 0 }}>Total Expenses</h5>
                     <div style={{ display: 'flex', flexFlow: 'row nowrap' }}>
-                      <Tooltip title="See Data">
-                        <Link to="/Personal/Expenses/ExpensesData"><Button type="primary" shape="circle" icon={<EyeOutlined /> } size='large' /></Link>
+                      <Tooltip title="View Detail">
+                        <Link to="/Personal/Expenses/Detail"><Button type="primary" shape="circle" icon={<EyeOutlined /> } size='large' /></Link>
                       </Tooltip>
                     </div>
                   </div>

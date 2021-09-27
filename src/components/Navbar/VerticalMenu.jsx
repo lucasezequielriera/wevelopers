@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Layout, Menu } from 'antd';
-import { DesktopOutlined, PieChartOutlined, FileOutlined, TeamOutlined, UserOutlined, SettingOutlined } from '@ant-design/icons';
+import { DesktopOutlined, PieChartOutlined, TeamOutlined, UserOutlined, SettingOutlined } from '@ant-design/icons';
 import './styles.css';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Dashboard from '../../pages/Dashboard/Dashboard';
@@ -12,7 +12,7 @@ import PersonalFiles from '../../pages/Personal/Files/PersonalFiles';
 import ProfessionalWork1 from '../../pages/Professional/Work1/ProfessionalWork1';
 import ProfessionalWork2 from '../../pages/Professional/Work2/ProfessionalWork2';
 import Settings from '../../pages/Settings/Settings';
-import PersonalExpensesData from '../../pages/Personal/Expenses/PersonalExpensesData';
+import PersonalExpensesDetail from '../../pages/Personal/Expenses/PersonalExpensesDetail';
 
 export default function VerticalMenu() {
 
@@ -70,7 +70,7 @@ export default function VerticalMenu() {
 
                         <Route exact path="/Dashboard"><Dashboard /></Route>
                         <Route exact path="/MyIssues"><MyIssues /></Route>
-                        <Route exact path="/Personal/Expenses/ExpensesData"><PersonalExpensesData /></Route>
+                        <Route exact path="/Personal/Expenses/Detail"><PersonalExpensesDetail /></Route>
                         <Route exact path="/Personal/Expenses"><PersonalExpenses /></Route>
                         <Route exact path="/Personal/Home"><PersonalHome/></Route>
                         <Route exact path="/Personal/Family"><PersonalFamily/></Route>
@@ -80,7 +80,7 @@ export default function VerticalMenu() {
                         <Route exact path="/Settings"><Settings/></Route>
                         <Route exact path="/"></Route>
 
-                        <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+                        <Footer style={{ textAlign: 'center' }}>All Rights Reserved ©2021 Created & Designed by Wevelopers</Footer>
                     </Layout>
                 </Layout>
 
