@@ -1,23 +1,17 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useContext } from 'react';
 import { Layout, Breadcrumb, Button, Tooltip } from 'antd';
 import { Column } from '@ant-design/charts';
 import { DownloadOutlined, EyeOutlined } from '@ant-design/icons';
 import { Row, Col } from 'react-bootstrap'
 import { Link } from 'react-router-dom';
+import { DataContext } from '../../../context/DataContext';
 
 export default function PersonalExpenses() {
 
     const { Content } = Layout;
 
-    const data = [
-      { description: 'Ingresos', value: 150000 },
-      { description: 'Gastos', value: 70000 },
-      { description: 'Deudas', value: 5000 },
-      { description: 'Préstamos', value: 0 },
-      { description: 'Ahorro $', value: 20000 },
-      { description: 'Ahorro u$d', value: (1200 * 181) },
-      { description: 'Efectivo', value: 5000 },
-    ];
+    const { data } = useContext(DataContext);
+
     const config = {
       data,
       height: 400,
@@ -76,16 +70,16 @@ export default function PersonalExpenses() {
                   </div>
                   <hr style={{ marginBottom: 35 }} />
                   <Row>
-                      <Col sm>
-                          <h6>Total Ingresos Mes Actual</h6><hr />
-                          <h2 style={{ color: 'rgb(94, 149, 244)' }}>$172.155</h2>
+                  {data.map((data) => {
+                    return (
+                      <Col style={{ minWidth: 200, maxWidth: 250 }}>
+                          <h6>{data.description}</h6><hr />
+                          <h2 style={{ color: 'rgb(94, 149, 244)' }}>${data.value}</h2>
                       </Col>
-                      <Col sm>
-                          <h6>Total Gastos Mes Actual</h6><hr />
-                          <h2 style={{ color: 'rgb(94, 149, 244)' }}>$106.581</h2>
-                      </Col>
+                    )
+                  })}
                   </Row>
-                  <Row>
+                  {/* <Row>
                       <Col sm>
                           <h6>Total Ahorros en Pesos</h6><hr />
                           <h2 style={{ color: 'rgb(94, 149, 244)' }}>$10.000</h2>
@@ -113,7 +107,7 @@ export default function PersonalExpenses() {
                       <Col sm>
                           
                       </Col>
-                  </Row>
+                  </Row> */}
                 </div>
             </div>
         </Content>

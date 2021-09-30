@@ -72,12 +72,12 @@ export default function VerticalMenu() {
                         <Route exact path="/MyIssues"><MyIssues /></Route>
                         <Route exact path="/Personal/Expenses/Detail"><PersonalExpensesDetail /></Route>
                         <Route exact path="/Personal/Expenses"><PersonalExpenses /></Route>
-                        <Route exact path="/Personal/Home"><PersonalHome/></Route>
-                        <Route exact path="/Personal/Family"><PersonalFamily/></Route>
-                        <Route exact path="/Personal/Files"><PersonalFiles/></Route>
-                        <Route exact path="/Professional/Work1"><ProfessionalWork1/></Route>
-                        <Route exact path="/Professional/Work2"><ProfessionalWork2/></Route>
-                        <Route exact path="/Settings"><Settings/></Route>
+                        <Route exact path="/Personal/Home"><PersonalHome /></Route>
+                        <Route exact path="/Personal/Family"><PersonalFamily /></Route>
+                        <Route exact path="/Personal/Files"><PersonalFiles /></Route>
+                        <Route exact path="/Professional/Work1"><ProfessionalWork1 /></Route>
+                        <Route exact path="/Professional/Work2"><ProfessionalWork2 /></Route>
+                        <Route exact path="/Settings"><Settings /></Route>
                         <Route exact path="/"></Route>
 
                         <Footer style={{ textAlign: 'center' }}>All Rights Reserved ©2021 Created & Designed by Wevelopers</Footer>

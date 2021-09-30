@@ -3,7 +3,7 @@ import { Layout, Breadcrumb } from 'antd';
 import { Row, Col } from 'react-bootstrap'
 import EditableTable from '../../../components/EditableTable/EditableTable';
 
-export default function PersonalExpensesDetail({ totalIngresosPesos, totalIngresosDolares, totalGastosMensuales, totalAhorrosMensuales, totalDeudas, totalPrestamos }) {
+export default function PersonalExpensesDetail() {
 
     const { Content } = Layout;
 
@@ -149,23 +149,29 @@ export default function PersonalExpensesDetail({ totalIngresosPesos, totalIngres
         }
     ];
 
-    useEffect(() => {
+    const suma = dataIngresosPesos.reduce((a, b) => a + b);
+    console.log(suma)
 
-        let totalIngresosPesos = 0;
-        let totalIngresosDolares = 0;
-        let totalGastosMensuales = 0;
-        let totalAhorrosMensuales = 0;
-        let totalDeudas = 0;
-        let totalPrestamos = 0;
-
-        dataIngresosPesos.map((dato) => { totalIngresosPesos += dato.amount; return totalIngresosPesos })
-        dataIngresosDolares.map((dato) => { totalIngresosDolares += dato.amount; return totalIngresosDolares })
-        dataGastosMensuales.map((dato) => { totalGastosMensuales += dato.amount; return totalGastosMensuales })
-        dataAhorrosMensuales.map((dato) => { totalAhorrosMensuales += dato.amount; return totalAhorrosMensuales })
-        dataDeudas.map((dato) => { totalDeudas += dato.amount; return totalDeudas })
-        dataPrestamos.map((dato) => { totalPrestamos += dato.amount; return totalPrestamos })
-
-    })
+    // useEffect(() => {
+    //     // dataIngresosPesos.map((dato) => {
+    //     //     const totalIngresosPesos = dato.amount
+    //     //     setIngresosPesos(totalIngresosPesos) })
+    //     // dataIngresosDolares.map((dato) => {
+    //     //     const totalIngresosDolares = dato.amount
+    //     //     setIngresosDolares(totalIngresosDolares) })
+    //     // dataGastosMensuales.map((dato) => {
+    //     //     const totalGastosMensuales = dato.amount
+    //     //     setGastosMensuales(totalGastosMensuales) })
+    //     // dataAhorrosMensuales.map((dato) => {
+    //     //     const totalAhorrosMensuales = dato.amount
+    //     //     setAhorrosMensuales(totalAhorrosMensuales) })
+    //     // dataDeudas.map((dato) => {
+    //     //     const totalDeudas = dato.amount
+    //     //     setDeudas(totalDeudas) })
+    //     // dataPrestamos.map((dato) => {
+    //     //     const totalPrestamos = dato.amount
+    //     //     setPrestamos(totalPrestamos) })
+    // })
 
     return (
         <Content style={{ margin: '0 16px' }}>
