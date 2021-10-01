@@ -1,13 +1,19 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Input, Button, Popconfirm, Form, Table, Tag, Space, Tooltip, InputNumber, Typography, notification } from 'antd';
 import { CheckCircleOutlined, AppstoreAddOutlined } from '@ant-design/icons';
 import Swal from 'sweetalert2';
 import moment from 'moment';
+import { DataContext } from '../../context/DataContext';
 
 const EditableTable = ({ tableSize, data, marginBottom, title }) => {
 
+    // Guardar datos en un nuevo array //
     const [originData, setOriginData] = useState(data);
+    const [datosNuevos, setDatosNuevos] = useState();
 
+    const { setData } = useContext(DataContext)
+
+    // Función para que editar en la tabla //
     const EditableCell = ({
         editing,
         dataIndex,
@@ -43,6 +49,7 @@ const EditableTable = ({ tableSize, data, marginBottom, title }) => {
         );
     };
 
+    // Popup luego de guardar dato editado //
     const openNotification = () => {
         notification.open({
             message: 'Successful change',
@@ -52,6 +59,7 @@ const EditableTable = ({ tableSize, data, marginBottom, title }) => {
         });
     };
 
+    // Editar dato //
     const [form] = Form.useForm();
     const [editingKey, setEditingKey] = useState('');
 
@@ -59,9 +67,11 @@ const EditableTable = ({ tableSize, data, marginBottom, title }) => {
     
     const edit = (record) => {
         form.setFieldsValue({
-            priority: '',
             title: '',
-            tags: '',
+            date: '',
+            payments: '',
+            amount: '',
+            paid: '',
             ...record,
         });
         setEditingKey(record.key);
@@ -83,16 +93,18 @@ const EditableTable = ({ tableSize, data, marginBottom, title }) => {
                 setOriginData(newData);
                 setEditingKey('');
                 openNotification();
+                setOriginData(newData);
                 } else {
                     newData.push(row);
                     setOriginData(newData);
-                    setEditingKey('');
+                    setEditingKey();
                 }
         } catch (errInfo) {
             console.log('Validate Failed:', errInfo);
         }
     };
     
+    // Estructura de columnas //
     const columns = [
         {
             title: 'Title',
@@ -149,6 +161,7 @@ const EditableTable = ({ tableSize, data, marginBottom, title }) => {
         {
             title: 'Amount',
             dataIndex: 'amount',
+            inputType: 'number',
             width: '10%',
             editable: true,
             render: tag => {
@@ -241,17 +254,15 @@ const EditableTable = ({ tableSize, data, marginBottom, title }) => {
         };
     });
 
+    // Borrar tarea //
     const handleDelete = (key) => {
         const origindata = originData
         setOriginData((origindata.filter((item) => item.key !== key)))
-        console.log(key)
-        console.log(origindata)
     }
 
-    // Create Issue
+    // Crear tarea //
     const createIssue = () => {
         let valor2 = "";
-
         Swal.fire({
             title: 'Enter the title',
             input: 'text',
@@ -270,7 +281,7 @@ const EditableTable = ({ tableSize, data, marginBottom, title }) => {
                     title: valor2 ? valor2 : 'Write something, please',
                     date: moment().format('DD/MM/YYYY'),
                     payments: '-',
-                    amount: '-',
+                    amount: 0,
                     paid: 'No',
                     edit: false,
                     }
@@ -279,6 +290,20 @@ const EditableTable = ({ tableSize, data, marginBottom, title }) => {
             }
         })
     }
+
+    const ingresosPesos = originData.map((dato) => dato.amount)
+    const cadaNumero = ingresosPesos.map((data) => Number(data))
+
+    // ESTO ES EL RESULTADO DE LA TABLA //
+    useEffect(() => {
+        const sumaTotal = cadaNumero.reduce((a, b) => a + b, 0)
+        const completedData = [
+            {description: originData.title, value: sumaTotal}
+        ]
+        setData(completedData)
+        console.log(completedData)
+    })
+    // -------------------------------- //
 
     return (
         <div style={{ marginBottom: marginBottom + 'px' }}>

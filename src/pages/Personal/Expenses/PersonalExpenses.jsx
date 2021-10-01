@@ -12,6 +12,8 @@ export default function PersonalExpenses() {
 
     const { data } = useContext(DataContext);
 
+    console.log(data)
+
     const config = {
       data,
       height: 400,
@@ -79,35 +81,6 @@ export default function PersonalExpenses() {
                     )
                   })}
                   </Row>
-                  {/* <Row>
-                      <Col sm>
-                          <h6>Total Ahorros en Pesos</h6><hr />
-                          <h2 style={{ color: 'rgb(94, 149, 244)' }}>$10.000</h2>
-                      </Col>
-                      <Col sm>
-                          <h6>Total Ahorros en Dólares</h6><hr />
-                          <h2 style={{ color: 'rgb(94, 149, 244)' }}>$1.931</h2>
-                      </Col>
-                  </Row>
-                  <Row>
-                      <Col sm>
-                          <h6>Total Ahorros en Pesos</h6><hr />
-                          <h2 style={{ color: 'rgb(94, 149, 244)' }}>$10.000</h2>
-                      </Col>
-                      <Col sm>
-                          <h6>Total Ahorros en Dólares</h6><hr />
-                          <h2 style={{ color: 'rgb(94, 149, 244)' }}>$1.931</h2>
-                      </Col>
-                  </Row>
-                  <Row>
-                      <Col sm>
-                          <h6>Total Ahorros en Pesos</h6><hr />
-                          <h2 style={{ color: 'rgb(94, 149, 244)' }}>$10.000</h2>
-                      </Col>
-                      <Col sm>
-                          
-                      </Col>
-                  </Row> */}
                 </div>
             </div>
         </Content>

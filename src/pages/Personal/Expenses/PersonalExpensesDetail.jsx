@@ -1,12 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import { Layout, Breadcrumb } from 'antd';
 import { Row, Col } from 'react-bootstrap'
 import EditableTable from '../../../components/EditableTable/EditableTable';
+import { DataContext } from '../../../context/DataContext';
 
 export default function PersonalExpensesDetail() {
 
     const { Content } = Layout;
-
+    
+    // Data ingresada a las tablas //
     const dataIngresosPesos = [
         {
             id: 1,
@@ -94,7 +96,7 @@ export default function PersonalExpensesDetail() {
         },
         {
             id: 3,
-            key: '3',
+            key: '4',
             title: 'Monitor',
             date: '11/09/21',
             payments: '3 of 3',
@@ -104,7 +106,7 @@ export default function PersonalExpensesDetail() {
         },
         {
             id: 3,
-            key: '3',
+            key: '5',
             title: 'Celular Samsung',
             date: '05/09/21',
             payments: '3 of 3',
@@ -136,6 +138,7 @@ export default function PersonalExpensesDetail() {
         },
     ];
     const dataDeudas = [];
+
     const dataPrestamos = [
         {
             id: 1,
@@ -149,29 +152,49 @@ export default function PersonalExpensesDetail() {
         }
     ];
 
-    const suma = dataIngresosPesos.reduce((a, b) => a + b);
-    console.log(suma)
+    // const mostrarTotales = async () => {
+    //     try {
+    //         console.log(data)
+    //     } catch (error) {
+    //         alert(error)
+    //     }
+    // }
 
-    // useEffect(() => {
-    //     // dataIngresosPesos.map((dato) => {
-    //     //     const totalIngresosPesos = dato.amount
-    //     //     setIngresosPesos(totalIngresosPesos) })
-    //     // dataIngresosDolares.map((dato) => {
-    //     //     const totalIngresosDolares = dato.amount
-    //     //     setIngresosDolares(totalIngresosDolares) })
-    //     // dataGastosMensuales.map((dato) => {
-    //     //     const totalGastosMensuales = dato.amount
-    //     //     setGastosMensuales(totalGastosMensuales) })
-    //     // dataAhorrosMensuales.map((dato) => {
-    //     //     const totalAhorrosMensuales = dato.amount
-    //     //     setAhorrosMensuales(totalAhorrosMensuales) })
-    //     // dataDeudas.map((dato) => {
-    //     //     const totalDeudas = dato.amount
-    //     //     setDeudas(totalDeudas) })
-    //     // dataPrestamos.map((dato) => {
-    //     //     const totalPrestamos = dato.amount
-    //     //     setPrestamos(totalPrestamos) })
-    // })
+    
+    // // Mapeo de datos para enviarlos a los resúmenes //
+    // const ingresosPesos = dataIngresosPesos.map((dato) => dato.amount)
+    // const sumaIngresosPesos = ingresosPesos.reduce((a, b) => a + b, 0)
+
+    // const ingresosDolares = dataIngresosDolares.map((dato) => dato.amount)
+    // const sumaIngresosDolares = ingresosDolares.reduce((a, b) => a + b, 0)
+
+    // const gastosMensuales = dataGastosMensuales.map((dato) => dato.amount)
+    // const sumaGastosMensuales = gastosMensuales.reduce((a, b) => a + b, 0)
+
+    // const ahorrosMensuales = dataAhorrosMensuales.map((dato) => dato.amount)
+    // const sumaAhorrosMensuales = ahorrosMensuales.reduce((a, b) => a + b, 0)
+
+    // const deudas = dataDeudas.map((dato) => dato.amount)
+    // const sumaDeudas = deudas.reduce((a, b) => a + b, 0)
+
+    // const prestamos = dataPrestamos.map((dato) => dato.amount)
+    // const sumaPrestamos = prestamos.reduce((a, b) => a + b, 0)
+
+    // const UpdateValues = () => {
+    //     setData(completedData)
+    //     console.log("Valores actualizados")
+    // }
+
+    // // Data enviada a Context //
+    // const completedData = [
+    //     {description: 'Ingresos', value: 0},
+    //     {description: 'Ahorro u$d', value: 0},
+    //     {description: 'Gastos', value: 0},
+    //     {description: 'Ahorro $', value: 0},
+    //     {description: 'Deudas', value: 0},
+    //     {description: 'Préstamos', value: 0},
+    //     {description: 'Efectivo', value: 0 }
+    // ]
 
     return (
         <Content style={{ margin: '0 16px' }}>
