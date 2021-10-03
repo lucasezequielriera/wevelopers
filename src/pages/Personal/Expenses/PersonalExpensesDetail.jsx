@@ -7,6 +7,8 @@ import { DataContext } from '../../../context/DataContext';
 export default function PersonalExpensesDetail() {
 
     const { Content } = Layout;
+
+    const { setValues, values } = useContext(DataContext)
     
     // Data ingresada a las tablas //
     const dataIngresosPesos = [
@@ -152,49 +154,21 @@ export default function PersonalExpensesDetail() {
         }
     ];
 
-    // const mostrarTotales = async () => {
-    //     try {
-    //         console.log(data)
-    //     } catch (error) {
-    //         alert(error)
-    //     }
-    // }
-
+    const datos = [];
     
-    // // Mapeo de datos para enviarlos a los resúmenes //
-    // const ingresosPesos = dataIngresosPesos.map((dato) => dato.amount)
-    // const sumaIngresosPesos = ingresosPesos.reduce((a, b) => a + b, 0)
+    const response = (e) => {
+        datos.push(...datos, e)
+        suprimir();
+    }
 
-    // const ingresosDolares = dataIngresosDolares.map((dato) => dato.amount)
-    // const sumaIngresosDolares = ingresosDolares.reduce((a, b) => a + b, 0)
-
-    // const gastosMensuales = dataGastosMensuales.map((dato) => dato.amount)
-    // const sumaGastosMensuales = gastosMensuales.reduce((a, b) => a + b, 0)
-
-    // const ahorrosMensuales = dataAhorrosMensuales.map((dato) => dato.amount)
-    // const sumaAhorrosMensuales = ahorrosMensuales.reduce((a, b) => a + b, 0)
-
-    // const deudas = dataDeudas.map((dato) => dato.amount)
-    // const sumaDeudas = deudas.reduce((a, b) => a + b, 0)
-
-    // const prestamos = dataPrestamos.map((dato) => dato.amount)
-    // const sumaPrestamos = prestamos.reduce((a, b) => a + b, 0)
-
-    // const UpdateValues = () => {
-    //     setData(completedData)
-    //     console.log("Valores actualizados")
-    // }
-
-    // // Data enviada a Context //
-    // const completedData = [
-    //     {description: 'Ingresos', value: 0},
-    //     {description: 'Ahorro u$d', value: 0},
-    //     {description: 'Gastos', value: 0},
-    //     {description: 'Ahorro $', value: 0},
-    //     {description: 'Deudas', value: 0},
-    //     {description: 'Préstamos', value: 0},
-    //     {description: 'Efectivo', value: 0 }
-    // ]
+    const suprimir = () => {
+        const numeros = datos;
+        const unicos = numeros.filter((valor, indice) => {
+            return numeros.indexOf(valor) === indice;
+        });
+        setValues([...values, unicos])
+        console.log(unicos)
+    }
 
     return (
         <Content style={{ margin: '0 16px' }}>
@@ -210,26 +184,26 @@ export default function PersonalExpensesDetail() {
                 <hr style={{ marginBottom: 35 }} />
                 <Row>
                     <Col className="gutter-row" span={6} lg>
-                        <EditableTable title="Ingresos Mensuales ($)" tableSize="small" marginBottom="20" data={dataIngresosPesos} />
+                        <EditableTable title="Ingresos Mensuales ($)" tableSize="small" marginBottom="20" data={dataIngresosPesos} response={(e) => response(e)} />
                     </Col>
                     <Col className="gutter-row" span={6} lg>
-                        <EditableTable title="Ingresos Mensuales (u$d)" tableSize="small" marginBottom="20" data={dataIngresosDolares} />
-                    </Col>
-                </Row>
-                <Row>
-                    <Col className="gutter-row" span={6} lg>
-                        <EditableTable title="Gastos Mensuales" tableSize="small" marginBottom="20" data={dataGastosMensuales} />
-                    </Col>
-                    <Col className="gutter-row" span={6} lg>
-                        <EditableTable title="Ahorros Mensuales" tableSize="small" marginBottom="20" data={dataAhorrosMensuales} />
+                        <EditableTable title="Ingresos Mensuales (u$d)" tableSize="small" marginBottom="20" data={dataIngresosDolares} response={(e) => response(e)}  />
                     </Col>
                 </Row>
                 <Row>
                     <Col className="gutter-row" span={6} lg>
-                        <EditableTable title="Deudas" tableSize="small" marginBottom="20" data={dataDeudas} />
+                        <EditableTable title="Gastos Mensuales" tableSize="small" marginBottom="20" data={dataGastosMensuales} response={(e) => response(e)} />
                     </Col>
                     <Col className="gutter-row" span={6} lg>
-                        <EditableTable title="Préstamos" tableSize="small" marginBottom="20" data={dataPrestamos} />
+                        <EditableTable title="Ahorros Mensuales" tableSize="small" marginBottom="20" data={dataAhorrosMensuales} response={(e) => response(e)} />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col className="gutter-row" span={6} lg>
+                        <EditableTable title="Deudas" tableSize="small" marginBottom="20" data={dataDeudas} response={(e) => response(e)} />
+                    </Col>
+                    <Col className="gutter-row" span={6} lg>
+                        <EditableTable title="Préstamos" tableSize="small" marginBottom="20" data={dataPrestamos} response={(e) => response(e)} />
                     </Col>
                 </Row>
             </div>

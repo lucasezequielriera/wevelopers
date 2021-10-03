@@ -1,17 +1,14 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { Input, Button, Popconfirm, Form, Table, Tag, Space, Tooltip, InputNumber, Typography, notification } from 'antd';
-import { CheckCircleOutlined, AppstoreAddOutlined } from '@ant-design/icons';
+import { CheckCircleOutlined, AppstoreAddOutlined, DollarOutlined, DeleteOutlined } from '@ant-design/icons';
 import Swal from 'sweetalert2';
 import moment from 'moment';
-import { DataContext } from '../../context/DataContext';
 
-const EditableTable = ({ tableSize, data, marginBottom, title }) => {
+const EditableTable = ({ tableSize, data, marginBottom, title, response }) => {
 
     // Guardar datos en un nuevo array //
     const [originData, setOriginData] = useState(data);
-    const [datosNuevos, setDatosNuevos] = useState();
-
-    const { setData } = useContext(DataContext)
+    const [numTotal, setNumTotal] = useState(0);
 
     // Función para que editar en la tabla //
     const EditableCell = ({
@@ -50,12 +47,12 @@ const EditableTable = ({ tableSize, data, marginBottom, title }) => {
     };
 
     // Popup luego de guardar dato editado //
-    const openNotification = () => {
+    const openNotification = (reason) => {
         notification.open({
-            message: 'Successful change',
+            message: reason === 'success' ? 'Successful change' : 'Successful deleted',
             description:
-                'Your change has been made.',
-            icon: <CheckCircleOutlined style={{ color: '#52c41a' }} />,
+                reason === 'success' ? 'Your change has been made.' : 'Your issue has been deleted',
+            icon: reason === 'success' ? <CheckCircleOutlined style={{ color: '#52c41a' }} /> : <DeleteOutlined style={{ color: 'red' }} />,
         });
     };
 
@@ -92,7 +89,7 @@ const EditableTable = ({ tableSize, data, marginBottom, title }) => {
                 newData.splice(index, 1, { ...item, ...row });
                 setOriginData(newData);
                 setEditingKey('');
-                openNotification();
+                openNotification('success');
                 setOriginData(newData);
                 } else {
                     newData.push(row);
@@ -204,7 +201,7 @@ const EditableTable = ({ tableSize, data, marginBottom, title }) => {
                         color="green"
                         onClick={(e) => {
                             e.preventDefault();
-                            save(record.key)
+                            save(record.key);
                         }}
                         style={{ marginRight: 8, cursor: 'pointer' }}>
                         Save
@@ -258,6 +255,7 @@ const EditableTable = ({ tableSize, data, marginBottom, title }) => {
     const handleDelete = (key) => {
         const origindata = originData
         setOriginData((origindata.filter((item) => item.key !== key)))
+        openNotification('deleted');
     }
 
     // Crear tarea //
@@ -291,23 +289,21 @@ const EditableTable = ({ tableSize, data, marginBottom, title }) => {
         })
     }
 
-    const ingresosPesos = originData.map((dato) => dato.amount)
-    const cadaNumero = ingresosPesos.map((data) => Number(data))
-
-    // ESTO ES EL RESULTADO DE LA TABLA //
     useEffect(() => {
-        const sumaTotal = cadaNumero.reduce((a, b) => a + b, 0)
-        const completedData = [
-            {description: originData.title, value: sumaTotal}
-        ]
-        setData(completedData)
-        console.log(completedData)
+        const map1 = originData.map((dato) => dato.amount)
+        const cadaNumero1 = map1.map((data) => Number(data))
+        // ESTO ES EL RESULTADO DE LA TABLA //
+        const total = cadaNumero1.reduce((a, b) => a + b, 0)
+        setNumTotal(total)
+        // Actualiza el valor total de cada tabla con useState en variable de afuera de UseEffect //
+        // console.log('Total:', total)
     })
+
     // -------------------------------- //
 
     return (
         <div style={{ marginBottom: marginBottom + 'px' }}>
-            <h6>{title}</h6>
+            <h6>{title} <Button type="primary" ghost onClick={() => response(numTotal)}>Total: ${numTotal}</Button></h6>
             <hr />
             <Tooltip title="Add Issue">
                 <Button type="primary" shape="circle" icon={<AppstoreAddOutlined />} size="large" onClick={createIssue} style={{ marginBottom: 10 }}/>

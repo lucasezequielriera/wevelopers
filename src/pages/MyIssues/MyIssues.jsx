@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Table, Layout, Breadcrumb, Tag, Space, Button, Tooltip, Form, Input, Popconfirm, InputNumber, Typography, notification } from 'antd';
-import { CheckCircleOutlined, SyncOutlined, ClockCircleOutlined, AppstoreAddOutlined, LoadingOutlined, RiseOutlined, MinusOutlined, FallOutlined, WarningOutlined } from '@ant-design/icons';
+import { CheckCircleOutlined, SyncOutlined, ClockCircleOutlined, AppstoreAddOutlined, LoadingOutlined, RiseOutlined, MinusOutlined, FallOutlined, WarningOutlined, DeleteOutlined } from '@ant-design/icons';
 import Swal from 'sweetalert2';
 import './index.css';
+import { DataContext } from '../../context/DataContext';
 
     export default function MyIssues() {
 
-        // const originData = [];
-    // // Table
     const { Content } = Layout;
-    // const { Column } = Table;
+    const { setIssues } = useContext(DataContext)
 
     const [originData, setOriginData] = useState([
         {
@@ -37,22 +36,6 @@ import './index.css';
             edit: false,
         }
     ]);
-
-    // const handleDelete = (e) => {
-    //     console.log(e)
-    //   };
-
-    // // Const Data
-    // const [data, setData] = useState(datos);
-
-    // for (let i = 0; i < 10; i++) {
-    //     originData.push({
-    //       key: i.toString(),
-    //       name: `Edrward ${i}`,
-    //       age: 32,
-    //       address: `London Park no. ${i}`,
-    //     });
-    // }
       
     const EditableCell = ({
         editing,
@@ -89,12 +72,12 @@ import './index.css';
         );
     };
 
-    const openNotification = () => {
+    const openNotification = (reason) => {
         notification.open({
-            message: 'Successful change',
+            message: reason === 'success' ? 'Successful change' : 'Successful deleted',
             description:
-                'Your change has been made.',
-            icon: <CheckCircleOutlined style={{ color: '#52c41a' }} />,
+                reason === 'success' ? 'Your change has been made.' : 'Your issue has been deleted',
+            icon: reason === 'success' ? <CheckCircleOutlined style={{ color: '#52c41a' }} /> : <DeleteOutlined style={{ color: 'red' }} />,
         });
     };
 
@@ -130,7 +113,7 @@ import './index.css';
                     newData.splice(index, 1, { ...item, ...row });
                     setData(newData);
                     setEditingKey('');
-                    openNotification();
+                    openNotification('success');
                     } else {
                         newData.push(row);
                         setData(newData);
@@ -284,8 +267,7 @@ import './index.css';
     const handleDelete = (key) => {
         const origindata = originData
         setOriginData((origindata.filter((item) => item.key !== key)))
-        console.log(key)
-        console.log(origindata)
+        openNotification('deleted');
     }
 
     // Create Issue
@@ -339,6 +321,12 @@ import './index.css';
             }
         })
     }
+
+    useEffect(() => {
+        console.log(originData)
+        console.log(originData.length)
+        setIssues(originData)
+    }, [originData])
 
     return (
         <Content style={{ margin: '0 16px' }}>

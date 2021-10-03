@@ -1,4 +1,4 @@
-import React, { useRef, useState, useContext } from 'react';
+import React, { useRef, useState, useContext, useEffect } from 'react';
 import { Layout, Breadcrumb, Button, Tooltip } from 'antd';
 import { Column } from '@ant-design/charts';
 import { DownloadOutlined, EyeOutlined } from '@ant-design/icons';
@@ -10,9 +10,7 @@ export default function PersonalExpenses() {
 
     const { Content } = Layout;
 
-    const { data } = useContext(DataContext);
-
-    console.log(data)
+    const { data, setData, values } = useContext(DataContext);
 
     const config = {
       data,
@@ -25,20 +23,25 @@ export default function PersonalExpenses() {
       },
     };
 
-    // const columnStyle = {
-    //   strokeOpacity: 0.7,
-    //   shadowColor: 'rgba(0,0,0,0.2)',
-    //   shadowBlur: 10,
-    //   shadowOffsetX: 5,
-    //   shadowOffsetY: 5,
-    // }
-
     const ref = useRef();
 
     // export image
     const downloadImage = () => {
         ref.current.downloadImage();
     };
+
+    const actualizarEstado = () => {
+      const mapeado = values.map((valor) => valor[0])
+      setData([
+        { description: 'Ingresos',   value: mapeado[0] },
+        { description: 'Gastos',     value: mapeado[1] },
+        { description: 'Deudas',     value: mapeado[2] },
+        { description: 'Préstamos',  value: mapeado[3] },
+        { description: 'Ahorro $',   value: mapeado[4] },
+        { description: 'Ahorro u$d', value: mapeado[5] },
+        { description: 'Efectivo',   value: mapeado[6] },
+      ])
+    }
 
     return (
         <Content style={{ margin: '0 16px' }}>
@@ -48,6 +51,7 @@ export default function PersonalExpenses() {
                 <Breadcrumb.Item>My Expenses</Breadcrumb.Item>
             </Breadcrumb>
             <hr />
+            <button onClick={actualizarEstado}></button>
             <div style={{ display: 'flex', flexFlow: 'row' }}>
                 <div style={{ width: '50%', padding: 24, minHeight: 360 }}>
                   <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between' }}>

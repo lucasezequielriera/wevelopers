@@ -1,11 +1,14 @@
-import React from 'react';
-import { Layout, Breadcrumb } from 'antd';
+import React, { useEffect, useContext } from 'react';
+import { Layout, Breadcrumb, Table, Tag } from 'antd';
+import { CheckCircleOutlined, SyncOutlined, ClockCircleOutlined, AppstoreAddOutlined, LoadingOutlined, RiseOutlined, MinusOutlined, FallOutlined, WarningOutlined } from '@ant-design/icons';
 import { Pie } from '@ant-design/charts';
 import { Row, Col } from 'react-bootstrap'
+import { DataContext } from '../../context/DataContext';
 
 export default function Dashboard() {
 
     const { Content } = Layout;
+    const { issues } = useContext(DataContext)
     
     const data = [
         {
@@ -64,6 +67,67 @@ export default function Dashboard() {
         },
     };
 
+    useEffect(() => {
+      console.log(issues)
+    })
+
+    const columns = [
+      {
+          title: 'Priority',
+          dataIndex: 'priority',
+          width: '7%',
+          render: priorities => {
+              if (priorities === 'High') {
+                  return <Tag icon={<RiseOutlined />} color="red" key={priorities}>
+                      {priorities}
+                  </Tag>
+              } else if (priorities === 'Medium') {
+                  return <Tag icon={<MinusOutlined />} color="yellow" key={priorities}>
+                      {priorities}
+                  </Tag>
+              } else if (priorities === 'Low') {
+                  return <Tag icon={<FallOutlined />} color="cyan" key={priorities}>
+                      {priorities}
+                  </Tag>
+              } else {
+                  return <Tag icon={<WarningOutlined />} color="purple" key={priorities}>
+                  {priorities}
+              </Tag>
+              }
+          },
+      },
+      {
+          title: 'State',
+          dataIndex: 'tags',
+          width: '7%',
+          render: tag => {
+              if (tag === 'Done') {
+                  return <Tag icon={<CheckCircleOutlined />} color="green" key={tag}>
+                      {tag}
+                          </Tag>
+              } else if (tag === 'Doing') {
+                  return <Tag icon={<SyncOutlined spin />} color="blue" key={tag}>
+                      {tag}
+                          </Tag>
+              } else if (tag === 'To do') {
+                  return <Tag icon={<ClockCircleOutlined />} color="default" key={tag}>
+                      {tag}
+                          </Tag>
+              } else if (tag !== 'Done' && tag !== 'Doing' && tag !== 'To do') {
+                  return <Tag icon={<LoadingOutlined />} color="default" key={tag}>
+                      {tag}
+                          </Tag>
+              }
+              console.log(tag)
+          },
+      },
+      {
+          title: 'Description',
+          dataIndex: 'description',
+          width: '75%',
+      }
+  ];
+
     return (
         <Content style={{ margin: '0 16px' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>
@@ -101,6 +165,13 @@ export default function Dashboard() {
                       </Col>
                   </Row>
                 </div>
+            </div>
+            <div style={{ display: 'flex', flexFlow: 'row', justifyContent: 'center' }}>
+              <div style={{ width: '100%', padding: 24, minHeight: 360 }}>
+                <h5>Pending Tasks</h5>
+                <hr style={{ marginBottom: 35 }} />
+                <Table dataSource={issues} columns={columns} />
+              </div>
             </div>
         </Content>
     )
