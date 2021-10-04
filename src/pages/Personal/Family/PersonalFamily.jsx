@@ -1,12 +1,16 @@
-import React, { useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 import { Layout, Breadcrumb, Button, Tooltip } from 'antd';
 import { Column } from '@ant-design/charts';
 import { DownloadOutlined, EditOutlined } from '@ant-design/icons';
 import { Row, Col } from 'react-bootstrap'
+import { Redirect } from 'react-router-dom';
+import { DataContext } from '../../../context/DataContext';
 
 export default function PersonalFamily() {
 
     const { Content } = Layout;
+
+    const { userState } = useContext(DataContext)
 
     const data = [
       { description: 'Ingresos', value: 150000 },
@@ -45,6 +49,7 @@ export default function PersonalFamily() {
 
 
     return (
+      userState === true ?
         <Content style={{ margin: '0 16px' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>
                 <Breadcrumb.Item>User</Breadcrumb.Item>
@@ -110,6 +115,7 @@ export default function PersonalFamily() {
                   </Row>
                 </div>
             </div>
-        </Content>
+        </Content> :
+        <Redirect to='./' />
     )
 }

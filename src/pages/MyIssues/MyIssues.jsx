@@ -4,11 +4,12 @@ import { CheckCircleOutlined, SyncOutlined, ClockCircleOutlined, AppstoreAddOutl
 import Swal from 'sweetalert2';
 import './index.css';
 import { DataContext } from '../../context/DataContext';
+import { Redirect } from 'react-router-dom';
 
     export default function MyIssues() {
 
     const { Content } = Layout;
-    const { setIssues } = useContext(DataContext)
+    const { setIssues, userState } = useContext(DataContext)
 
     const [originData, setOriginData] = useState([
         {
@@ -329,20 +330,22 @@ import { DataContext } from '../../context/DataContext';
     }, [originData])
 
     return (
-        <Content style={{ margin: '0 16px' }}>
-            <Breadcrumb style={{ margin: '16px 0' }}>
-                <Breadcrumb.Item>User</Breadcrumb.Item>
-                <Breadcrumb.Item>My Issues</Breadcrumb.Item>
-            </Breadcrumb>
-            <hr />
-            <div style={{ padding: 24, minHeight: 360 }}>
-                <h5>All Issues</h5>
-                    <hr style={{ marginBottom: 35 }} />
-                <Tooltip title="Add Issue">
-                    <Button type="primary" shape="circle" icon={<AppstoreAddOutlined />} size="large" onClick={createIssue} style={{ marginBottom: 10 }}/>
-                </Tooltip>
-                <EditableTable />
-            </div>
-        </Content>
+        userState === true ?
+            <Content style={{ margin: '0 16px' }}>
+                <Breadcrumb style={{ margin: '16px 0' }}>
+                    <Breadcrumb.Item>User</Breadcrumb.Item>
+                    <Breadcrumb.Item>My Issues</Breadcrumb.Item>
+                </Breadcrumb>
+                <hr />
+                <div style={{ padding: 24, minHeight: 360 }}>
+                    <h5>All Issues</h5>
+                        <hr style={{ marginBottom: 35 }} />
+                    <Tooltip title="Add Issue">
+                        <Button type="primary" shape="circle" icon={<AppstoreAddOutlined />} size="large" onClick={createIssue} style={{ marginBottom: 10 }}/>
+                    </Tooltip>
+                    <EditableTable />
+                </div>
+            </Content> :
+            <Redirect to='./' />
     )
 }

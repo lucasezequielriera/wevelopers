@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment, useContext, useEffect } from 'react';
 import { Layout, Menu } from 'antd';
 import { DesktopOutlined, PieChartOutlined, TeamOutlined, UserOutlined, SettingOutlined } from '@ant-design/icons';
 import './styles.css';
@@ -13,8 +13,12 @@ import ProfessionalWork1 from '../../pages/Professional/Work1/ProfessionalWork1'
 import ProfessionalWork2 from '../../pages/Professional/Work2/ProfessionalWork2';
 import Settings from '../../pages/Settings/Settings';
 import PersonalExpensesDetail from '../../pages/Personal/Expenses/PersonalExpensesDetail';
+import Home from '../../pages/Home/Home';
+import { DataContext } from '../../context/DataContext';
 
 export default function VerticalMenu() {
+
+    const { user, userState } = useContext(DataContext);
 
     // States //
     const [collapsed, setCollapsed] = useState(false);
@@ -26,6 +30,17 @@ export default function VerticalMenu() {
     // Toggle//
     const toggle = () => setCollapsed(!collapsed);
 
+    // Language //
+    const [chooseLanguage, setChooseLanguage] = useState('spanish')
+
+    useEffect(() => {
+        console.log(userState)
+    }, [userState])
+
+    const selectLanguage = (language) => {
+        setChooseLanguage(language)
+    }
+
     return (
         <Router>
             <Switch>
@@ -33,6 +48,8 @@ export default function VerticalMenu() {
                 <Layout style={{ minHeight: '100vh' }}>
                     <Sider collapsible collapsed={collapsed} onCollapse={toggle}>
                         <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+                            { userState === true ?
+                            <Fragment>
                             <Menu.Item key="1" icon={<PieChartOutlined />}>
                                 <Link to="/Dashboard">Dashboard</Link>
                             </Menu.Item>
@@ -64,6 +81,22 @@ export default function VerticalMenu() {
                             <Menu.Item key="9" icon={<SettingOutlined />}>
                                 <Link to="/Settings">Settings</Link>
                             </Menu.Item>
+                            </Fragment> :
+                            <Fragment>
+                                <Menu.Item key="1" icon={<PieChartOutlined />}>
+                                    <Link to="/" onClick={() => selectLanguage('spanish')}>Español</Link>
+                                </Menu.Item>
+                                <Menu.Item key="2" icon={<PieChartOutlined />}>
+                                    <Link to="/" onClick={() => selectLanguage('english')}>English</Link>
+                                </Menu.Item>
+                                <Menu.Item key="3" icon={<PieChartOutlined />}>
+                                    <Link to="/" onClick={() => selectLanguage('italiano')}>Italiano</Link>
+                                </Menu.Item>
+                                <Menu.Item key="4" icon={<PieChartOutlined />}>
+                                    <Link to="/" onClick={() => selectLanguage('日本語')}>日本語</Link>
+                                </Menu.Item>
+                            </Fragment>
+                            }
                         </Menu>
                     </Sider>
                     <Layout className="site-layout">
@@ -78,7 +111,7 @@ export default function VerticalMenu() {
                         <Route exact path="/Professional/Work1"><ProfessionalWork1 /></Route>
                         <Route exact path="/Professional/Work2"><ProfessionalWork2 /></Route>
                         <Route exact path="/Settings"><Settings /></Route>
-                        <Route exact path="/"></Route>
+                        <Route exact path="/"><Home language={chooseLanguage} /></Route>
 
                         <Footer style={{ textAlign: 'center' }}>All Rights Reserved ©2021 Created & Designed by Wevelopers</Footer>
                     </Layout>

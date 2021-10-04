@@ -4,11 +4,12 @@ import { CheckCircleOutlined, SyncOutlined, ClockCircleOutlined, AppstoreAddOutl
 import { Pie } from '@ant-design/charts';
 import { Row, Col } from 'react-bootstrap'
 import { DataContext } from '../../context/DataContext';
+import { Redirect } from 'react-router-dom';
 
 export default function Dashboard() {
 
     const { Content } = Layout;
-    const { issues } = useContext(DataContext)
+    const { issues, userState } = useContext(DataContext)
     
     const data = [
         {
@@ -128,51 +129,52 @@ export default function Dashboard() {
       }
   ];
 
-    return (
-        <Content style={{ margin: '0 16px' }}>
-            <Breadcrumb style={{ margin: '16px 0' }}>
-                <Breadcrumb.Item>User</Breadcrumb.Item>
-                <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
-            </Breadcrumb>
-            <hr />
-            <div style={{ display: 'flex', flexFlow: 'row' }}>
-                <div style={{ width: '50%', padding: 24, minHeight: 360 }}>
-                  <h5>Percentage of Income Spent</h5>
-                  <hr style={{ marginBottom: 35 }} />
-                  <Pie {...config} />
-                </div>
-                <div style={{ width: '50%', padding: 24, minHeight: 360 }}>
-                  <h5>Account Summary</h5>
-                  <hr style={{ marginBottom: 35 }} />
-                  <Row>
-                      <Col sm>
-                          <h6>Total Ingresos Mes Actual</h6><hr />
-                          <h2 style={{ color: 'rgb(94, 149, 244)' }}>$172.155</h2>
-                      </Col>
-                      <Col sm>
-                          <h6>Total Gastos Mes Actual</h6><hr />
-                          <h2 style={{ color: 'rgb(94, 149, 244)' }}>$106.581</h2>
-                      </Col>
-                  </Row>
-                  <Row>
-                      <Col sm>
-                          <h6>Total Ahorros en Pesos</h6><hr />
-                          <h2 style={{ color: 'rgb(94, 149, 244)' }}>$10.000</h2>
-                      </Col>
-                      <Col sm>
-                          <h6>Total Ahorros en Dólares</h6><hr />
-                          <h2 style={{ color: 'rgb(94, 149, 244)' }}>$1.931</h2>
-                      </Col>
-                  </Row>
-                </div>
+  return (
+    userState === true ?
+      <Content style={{ margin: '0 16px' }}>
+        <Breadcrumb style={{ margin: '16px 0' }}>
+            <Breadcrumb.Item>User</Breadcrumb.Item>
+            <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
+        </Breadcrumb>
+        <hr />
+        <div style={{ display: 'flex', flexFlow: 'row' }}>
+            <div style={{ width: '50%', padding: 24, minHeight: 360 }}>
+              <h5>Percentage of Income Spent</h5>
+              <hr style={{ marginBottom: 35 }} />
+              <Pie {...config} />
             </div>
-            <div style={{ display: 'flex', flexFlow: 'row', justifyContent: 'center' }}>
-              <div style={{ width: '100%', padding: 24, minHeight: 360 }}>
-                <h5>Pending Tasks</h5>
-                <hr style={{ marginBottom: 35 }} />
-                <Table dataSource={issues} columns={columns} />
-              </div>
+            <div style={{ width: '50%', padding: 24, minHeight: 360 }}>
+              <h5>Account Summary</h5>
+              <hr style={{ marginBottom: 35 }} />
+              <Row>
+                  <Col sm>
+                      <h6>Total Ingresos Mes Actual</h6><hr />
+                      <h2 style={{ color: 'rgb(94, 149, 244)' }}>$172.155</h2>
+                  </Col>
+                  <Col sm>
+                      <h6>Total Gastos Mes Actual</h6><hr />
+                      <h2 style={{ color: 'rgb(94, 149, 244)' }}>$106.581</h2>
+                  </Col>
+              </Row>
+              <Row>
+                  <Col sm>
+                      <h6>Total Ahorros en Pesos</h6><hr />
+                      <h2 style={{ color: 'rgb(94, 149, 244)' }}>$10.000</h2>
+                  </Col>
+                  <Col sm>
+                      <h6>Total Ahorros en Dólares</h6><hr />
+                      <h2 style={{ color: 'rgb(94, 149, 244)' }}>$1.931</h2>
+                  </Col>
+              </Row>
             </div>
-        </Content>
-    )
-}
+        </div>
+        <div style={{ display: 'flex', flexFlow: 'row', justifyContent: 'center' }}>
+          <div style={{ width: '100%', padding: 24, minHeight: 360 }}>
+            <h5>Pending Tasks</h5>
+            <hr style={{ marginBottom: 35 }} />
+            <Table dataSource={issues} columns={columns} />
+          </div>
+        </div>
+      </Content> :
+      <Redirect to='./' />
+  )}

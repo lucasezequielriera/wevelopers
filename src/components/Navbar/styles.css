@@ -24,10 +24,6 @@ background: #fff;
     margin-top: 0;
 }
 
-.ant-modal-content svg {
-    margin-bottom: 10px;
-}
-
 .ant-alert span {
     height: 15px;
 }

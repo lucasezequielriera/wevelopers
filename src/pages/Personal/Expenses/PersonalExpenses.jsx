@@ -5,12 +5,13 @@ import { DownloadOutlined, EyeOutlined } from '@ant-design/icons';
 import { Row, Col } from 'react-bootstrap'
 import { Link } from 'react-router-dom';
 import { DataContext } from '../../../context/DataContext';
+import { Redirect } from 'react-router-dom';
 
 export default function PersonalExpenses() {
 
     const { Content } = Layout;
 
-    const { data, setData, values } = useContext(DataContext);
+    const { data, setData, values, userState } = useContext(DataContext);
 
     const config = {
       data,
@@ -32,18 +33,30 @@ export default function PersonalExpenses() {
 
     const actualizarEstado = () => {
       const mapeado = values.map((valor) => valor[0])
+
+      const ingresosMap = mapeado.find((element) => element.name === 'Ingresos');
+      const gastosMap = mapeado.find((element) => element.name === 'Gastos');
+      const deudasMap = mapeado.find((element) => element.name === 'Deudas');
+      const prestamosMap = mapeado.find((element) => element.name === 'Préstamos');
+      const ahorro$Map = mapeado.find((element) => element.name === 'Ahorro $');
+      const ahorroU$dMap = mapeado.find((element) => element.name === 'Ahorro u$d');
+      // const efectivoMap = mapeado.find((element) => element.name === 'Efectivo');
+
+      console.log(mapeado)
+
       setData([
-        { description: 'Ingresos',   value: mapeado[0] },
-        { description: 'Gastos',     value: mapeado[1] },
-        { description: 'Deudas',     value: mapeado[2] },
-        { description: 'Préstamos',  value: mapeado[3] },
-        { description: 'Ahorro $',   value: mapeado[4] },
-        { description: 'Ahorro u$d', value: mapeado[5] },
-        { description: 'Efectivo',   value: mapeado[6] },
+        { description: 'Ingresos',   value: ingresosMap.value === undefined ? 0 : ingresosMap.value },
+        { description: 'Gastos',     value: gastosMap.value === undefined ? 0 : gastosMap.value },
+        { description: 'Deudas',     value: deudasMap.value === undefined ? 0 : deudasMap.value },
+        { description: 'Préstamos',  value: prestamosMap.value === undefined ? 0 : prestamosMap.value },
+        { description: 'Ahorro $',   value: ahorro$Map.value === undefined ? 0 : ahorro$Map.value },
+        { description: 'Ahorro u$d', value: ahorroU$dMap.value === undefined ? 0 : ahorroU$dMap.value },
+        // { description: 'Efectivo',   value: efectivoMap.value === undefined ? 0 : efectivoMap.value },
       ])
     }
 
     return (
+      userState === true ?
         <Content style={{ margin: '0 16px' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>
                 <Breadcrumb.Item>User</Breadcrumb.Item>
@@ -51,7 +64,7 @@ export default function PersonalExpenses() {
                 <Breadcrumb.Item>My Expenses</Breadcrumb.Item>
             </Breadcrumb>
             <hr />
-            <button onClick={actualizarEstado}></button>
+            <Button type="primary" onClick={actualizarEstado}>Actualizar Valores</Button>
             <div style={{ display: 'flex', flexFlow: 'row' }}>
                 <div style={{ width: '50%', padding: 24, minHeight: 360 }}>
                   <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between' }}>
@@ -87,6 +100,7 @@ export default function PersonalExpenses() {
                   </Row>
                 </div>
             </div>
-        </Content>
+        </Content> :
+        <Redirect to='./' />
     )
 }

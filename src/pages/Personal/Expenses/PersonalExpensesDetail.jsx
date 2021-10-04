@@ -184,26 +184,26 @@ export default function PersonalExpensesDetail() {
                 <hr style={{ marginBottom: 35 }} />
                 <Row>
                     <Col className="gutter-row" span={6} lg>
-                        <EditableTable title="Ingresos Mensuales ($)" tableSize="small" marginBottom="20" data={dataIngresosPesos} response={(e) => response(e)} />
+                        <EditableTable title="Ingresos Mensuales ($)" tableSize="small" marginBottom="20" data={dataIngresosPesos} response={(e) => response({name: 'Ingresos', value: e})} />
                     </Col>
                     <Col className="gutter-row" span={6} lg>
-                        <EditableTable title="Ingresos Mensuales (u$d)" tableSize="small" marginBottom="20" data={dataIngresosDolares} response={(e) => response(e)}  />
-                    </Col>
-                </Row>
-                <Row>
-                    <Col className="gutter-row" span={6} lg>
-                        <EditableTable title="Gastos Mensuales" tableSize="small" marginBottom="20" data={dataGastosMensuales} response={(e) => response(e)} />
-                    </Col>
-                    <Col className="gutter-row" span={6} lg>
-                        <EditableTable title="Ahorros Mensuales" tableSize="small" marginBottom="20" data={dataAhorrosMensuales} response={(e) => response(e)} />
+                        <EditableTable title="Ingresos Mensuales (u$d)" tableSize="small" marginBottom="20" data={dataIngresosDolares} response={(e) => response({name: 'Ahorro u$d', value: e})}  />
                     </Col>
                 </Row>
                 <Row>
                     <Col className="gutter-row" span={6} lg>
-                        <EditableTable title="Deudas" tableSize="small" marginBottom="20" data={dataDeudas} response={(e) => response(e)} />
+                        <EditableTable title="Gastos Mensuales" tableSize="small" marginBottom="20" data={dataGastosMensuales} response={(e) => response({name: 'Gastos', value: e})} />
                     </Col>
                     <Col className="gutter-row" span={6} lg>
-                        <EditableTable title="Préstamos" tableSize="small" marginBottom="20" data={dataPrestamos} response={(e) => response(e)} />
+                        <EditableTable title="Ahorros Mensuales" tableSize="small" marginBottom="20" data={dataAhorrosMensuales} response={(e) => response({name: 'Ahorro $', value: e})} />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col className="gutter-row" span={6} lg>
+                        <EditableTable title="Deudas" tableSize="small" marginBottom="20" data={dataDeudas} response={(e) => response({name: 'Deudas', value: e})} />
+                    </Col>
+                    <Col className="gutter-row" span={6} lg>
+                        <EditableTable title="Préstamos" tableSize="small" marginBottom="20" data={dataPrestamos} response={(e) => response({name: 'Préstamos', value: e})} />
                     </Col>
                 </Row>
             </div>
