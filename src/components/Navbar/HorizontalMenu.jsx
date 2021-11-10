@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, Fragment } from 'react';
 import logo from '../../assets/images/wevelopers_fondo_negro.png';
 import { UserOutlined, BellOutlined, LockOutlined } from '@ant-design/icons';
 import { Badge, Modal, Alert, Button, Form, Input, Checkbox } from 'antd';
@@ -73,7 +73,7 @@ export default function HorizontalMenu() {
                                 <Alert message="Informational Notes but nothing to see" type="info" showIcon style={{ padding: '5px 15px', marginBottom: 5 }} />
                                 <Alert message="Informational Notes conquerors in the worlds" type="info" showIcon style={{ padding: '5px 15px', marginBottom: 5 }} />
                             </Modal>
-                            <Nav.Link>
+                            <Nav.Link to="/User" style={{ display: 'flex', flexFlow: 'row nowrap' }} onClick={() => showModal('login')}>
                                 <Link to="/User" style={{ display: 'flex', flexFlow: 'row nowrap' }} onClick={() => showModal('login')}>
                                     <UserOutlined style={{ fontSize: 20 }}/>
                                     <p style={{ margin: 0, marginLeft: 5, color: 'rgb(255,100,73)' }}>{`Hi ${user[0].fullName}`}</p>
@@ -97,5 +97,4 @@ export default function HorizontalMenu() {
             <Route exact path="/Alerts"></Route>
         </Router>
     )
-
 }
