@@ -5,7 +5,7 @@ import { DesktopOutlined, PieChartOutlined, TeamOutlined, UserOutlined, SettingO
 import './styles.css';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Dashboard from '../../pages/Dashboard/Dashboard';
-import MyIssues from '../../pages/MyIssues/MyIssues';
+import MyTasks from '../../pages/MyTasks/MyTasks';
 import PersonalExpenses from '../../pages/Personal/Expenses/PersonalExpenses';
 import PersonalFamily from '../../pages/Personal/Family/PersonalFamily';
 import PersonalHome from '../../pages/Personal/Home/PersonalHome';
@@ -33,12 +33,6 @@ export default function VerticalMenu() {
     const toggle = () => setCollapsed(!collapsed);
 
     // Language //
-    const [chooseLanguage, setChooseLanguage] = useState('spanish')
-
-    useEffect(() => {
-        console.log(userState)
-    }, [userState])
-
     const selectLanguage = (language) => {
         i18n.changeLanguage(language)
     }
@@ -68,8 +62,6 @@ export default function VerticalMenu() {
 
     return (
         <Router>
-            <Switch>
-
                 <Layout style={{ minHeight: '100vh' }}>
                     <Sider collapsible collapsed={collapsed} onCollapse={toggle}>
                         <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
@@ -79,7 +71,7 @@ export default function VerticalMenu() {
                                 <Link to="/Dashboard">Dashboard</Link>
                             </Menu.Item>
                             <Menu.Item key="2" icon={<DesktopOutlined />}>
-                                <Link to="/MyIssues">My Issues</Link>
+                                <Link to="/MyTasks">My Tasks</Link>
                             </Menu.Item>
                             <SubMenu key="sub1" icon={<UserOutlined />} title="Personal">
                                 <Menu.Item key="3">
@@ -120,24 +112,23 @@ export default function VerticalMenu() {
                         </Menu>
                     </Sider>
                     <Layout className="site-layout">
-
-                        <Route exact path="/Dashboard"><Dashboard /></Route>
-                        <Route exact path="/MyIssues"><MyIssues /></Route>
-                        <Route exact path="/Personal/Expenses/Detail"><PersonalExpensesDetail /></Route>
-                        <Route exact path="/Personal/Expenses"><PersonalExpenses /></Route>
-                        <Route exact path="/Personal/Home"><PersonalHome /></Route>
-                        <Route exact path="/Personal/Family"><PersonalFamily /></Route>
-                        <Route exact path="/Personal/Files"><PersonalFiles /></Route>
-                        <Route exact path="/Professional/Work1"><ProfessionalWork1 /></Route>
-                        <Route exact path="/Professional/Work2"><ProfessionalWork2 /></Route>
-                        <Route exact path="/Settings"><Settings /></Route>
-                        <Route exact path="/"><Home /></Route>
-
+                        <Switch>
+                            <Route exact path="/Dashboard"><Dashboard /></Route>
+                            <Route exact path="/MyTasks"><MyTasks /></Route>
+                            <Route exact path="/Personal/Expenses/Detail"><PersonalExpensesDetail /></Route>
+                            <Route exact path="/Personal/Expenses"><PersonalExpenses /></Route>
+                            <Route exact path="/Personal/Home"><PersonalHome /></Route>
+                            <Route exact path="/Personal/Family"><PersonalFamily /></Route>
+                            <Route exact path="/Personal/Files"><PersonalFiles /></Route>
+                            <Route exact path="/Professional/Work1"><ProfessionalWork1 /></Route>
+                            <Route exact path="/Professional/Work2"><ProfessionalWork2 /></Route>
+                            <Route exact path="/Settings"><Settings /></Route>
+                            <Route exact path="/"><Home /></Route>
+                        </Switch>
                         <Footer style={{ textAlign: 'center' }}>All Rights Reserved ©2021 Created & Designed by Wevelopers</Footer>
                     </Layout>
                 </Layout>
 
-            </Switch>
         </Router>
     )
 }

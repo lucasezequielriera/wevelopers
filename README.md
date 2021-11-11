@@ -32,3 +32,41 @@ Declarar variables y hacer función de fetch en DataContext.jsx:
     }, [])
  - En <DataContext.Provider> indicar como prop "value" las variables declaradas:
     <DataContext.Provider value={{ users, setUsers }}> {children} <DataContext.Provider />
+
+----- DB:
+
+// TODOS LOS USUARIOS //
+useEffect(() => {
+    const fetchDataUsers = async () => {
+        const datos = await getDocs(collection(db, "users"));
+        const buscarData = datos.docs.map((user) => {
+            return user.data()
+        })
+        setUsers(buscarData)
+    }
+    fetchDataUsers()
+}, [])
+
+// TODA LA DATA GLOBAL DEL USUARIO //
+useEffect(() => {
+    const fetchGlobalDataUser = async () => {
+        const datos = await getDocs(collection(db, "users/4Wl0ABf75BtglqcPOtJT/globalData"));
+        const buscarData = datos.docs.map((user) => {
+            return user.data()
+        })
+        setGlobalDataUser(buscarData)
+    }
+    fetchGlobalDataUser()
+}, [])
+
+// TODAS LAS TAREAS DEL USUARIO //
+useEffect(() => {
+    const fetchMyIssuesUser = async () => {
+        const datos = await getDocs(collection(db, "users/4Wl0ABf75BtglqcPOtJT/tasks"));
+        const buscarData = datos.docs.map((user) => {
+            return user.data()
+        })
+        setTasks(buscarData)
+    }
+    fetchMyIssuesUser()
+}, [])

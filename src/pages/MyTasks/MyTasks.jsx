@@ -1,42 +1,42 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Table, Layout, Breadcrumb, Tag, Space, Button, Tooltip, Form, Input, Popconfirm, InputNumber, Typography, notification } from 'antd';
+import { Table, Layout, Breadcrumb, Tag, Space, Button, Tooltip, Form, Input, Popconfirm, InputNumber, Typography, notification, Spin } from 'antd';
 import { CheckCircleOutlined, SyncOutlined, ClockCircleOutlined, AppstoreAddOutlined, LoadingOutlined, RiseOutlined, MinusOutlined, FallOutlined, WarningOutlined, DeleteOutlined } from '@ant-design/icons';
 import Swal from 'sweetalert2';
 import './index.css';
 import { DataContext } from '../../context/DataContext';
 import { Redirect } from 'react-router-dom';
+import { addDoc, collection, getDocs, doc, updateDoc, deleteDoc } from "firebase/firestore";
+import db from '../../config/firebase/firebase';
+
 
     export default function MyIssues() {
 
     const { Content } = Layout;
     const { setIssues, userState } = useContext(DataContext)
 
-    const [originData, setOriginData] = useState([
-        {
-            id: 1,
-            key: '1',
-            priority: 'High',
-            description: 'Corrección de formularios vacios en Escuelas IADE Paraguay',
-            tags: 'To do',
-            edit: false,
-        },
-        {
-            id: 2,
-            key: '2',
-            priority: 'Medium',
-            description: 'Hablar con diseñador para marca y logo',
-            tags: 'To do',
-            edit: false,
-        },
-        {
-            id: 3,
-            key: '3',
-            priority: 'Low',
-            description: 'Consultar con Community Manager para gestión de redes We-velopers',
-            tags: 'To do',
-            edit: false,
+    const [tasks, setTasks] = useState([])
+    const [loading, setLoading] = useState(false)
+    const [idDoc, setIdDoc] = useState("")
+
+    // TODAS LAS TAREAS DEL USUARIO //
+    useEffect(() => {
+        let isMounted = true; // Fixed error with this //
+        const fetchMyTasksUser = async () => {
+            if (isMounted) {
+                setLoading(true)
+                const datos = await getDocs(collection(db, "users/4Wl0ABf75BtglqcPOtJT/tasks"));
+                const buscarData = datos.docs.map((user) => {
+                    return user.data()
+                })
+                setTasks(buscarData)
+                setLoading(false)
+            }
         }
-    ]);
+        fetchMyTasksUser()
+        return () => { isMounted = false }
+    }, [idDoc])
+
+    console.log(tasks)
       
     const EditableCell = ({
         editing,
@@ -84,7 +84,7 @@ import { Redirect } from 'react-router-dom';
 
     const EditableTable = () => {
         const [form] = Form.useForm();
-        const [data, setData] = useState(originData);
+        const [data, setData] = useState(tasks);
         const [editingKey, setEditingKey] = useState('');
       
         const isEditing = (record) => record.key === editingKey;
@@ -93,7 +93,7 @@ import { Redirect } from 'react-router-dom';
             form.setFieldsValue({
                 priority: '',
                 description: '',
-                tags: '',
+                state: '',
                 ...record,
             });
             setEditingKey(record.key);
@@ -105,6 +105,7 @@ import { Redirect } from 'react-router-dom';
       
         const save = async (key) => {
             try {
+                setLoading(true)
                 const row = await form.validateFields();
                 const newData = [...data];
                 const index = newData.findIndex((item) => key === item.key);
@@ -112,9 +113,19 @@ import { Redirect } from 'react-router-dom';
                 if (index > -1) {
                     const item = newData[index];
                     newData.splice(index, 1, { ...item, ...row });
+
+                    // Edit task in Firebase //
+                    const editedTask = newData.find((task) => task.key === key)
+                    await updateDoc(doc(db, `users/4Wl0ABf75BtglqcPOtJT/tasks/${key}`), editedTask)
+
                     setData(newData);
                     setEditingKey('');
+                    setTasks(newData)
+
+                    console.log(newData)
+                    setLoading(false)
                     openNotification('success');
+                    // setChange(!change)
                     } else {
                         newData.push(row);
                         setData(newData);
@@ -153,7 +164,7 @@ import { Redirect } from 'react-router-dom';
             },
             {
                 title: 'State',
-                dataIndex: 'tags',
+                dataIndex: 'state',
                 width: '7%',
                 editable: true,
                 render: tag => {
@@ -174,7 +185,6 @@ import { Redirect } from 'react-router-dom';
                             {tag}
                                 </Tag>
                     }
-                    console.log(tag)
                 },
             },
             {
@@ -265,9 +275,15 @@ import { Redirect } from 'react-router-dom';
         );
     };
 
-    const handleDelete = (key) => {
-        const origindata = originData
-        setOriginData((origindata.filter((item) => item.key !== key)))
+    const handleDelete = async (key) => {
+        setLoading(true)
+        const origindata = tasks;
+
+        // Delete Firebase task //
+        await deleteDoc(doc(db, `users/4Wl0ABf75BtglqcPOtJT/tasks/${key}`));
+
+        setTasks((origindata.filter((item) => item.key !== key)))
+        setLoading(false)
         openNotification('deleted');
     }
 
@@ -302,19 +318,39 @@ import { Redirect } from 'react-router-dom';
                         confirmButtonText: 'Add Issue',
                         backdrop: 'rgba(0,0,0,0.8)',
                         inputValidator: (value) => {
-                          if (!value) {
-                            return 'You need to write something!'
-                          } else {
-                            valor2 = value;
-                            const objetoNuevo = {
-                                id: originData.length + 1,
-                                key: String((originData.length + 1)),
-                                priority: valor1 ? valor1 : 'Low',
-                                description: valor2 ? valor2 : 'Write something, please',
-                                tags: 'To do',
-                                edit: false,
+                            if (!value) {
+                                return 'You need to write something!'
+                            } else {
+                                valor2 = value;
+                                let objetoNuevo = [{
+                                    priority: valor1 ? valor1 : 'Low',
+                                    description: valor2 ? valor2 : 'Write something, please',
+                                    state: 'To do',
+                                    edit: false,
+                                }]
+                                try {
+                                    const createTask = async () => {
+                                        setLoading(true)
+
+                                        const docRef = await addDoc(collection(db, "users/4Wl0ABf75BtglqcPOtJT/tasks"), {
+                                            priority: objetoNuevo[0].priority,
+                                            description: objetoNuevo[0].description,
+                                            state: objetoNuevo[0].state,
+                                            edit: objetoNuevo[0].edit
+                                        });
+                                        await updateDoc(doc(db, `users/4Wl0ABf75BtglqcPOtJT/tasks/${docRef.id}`), {
+                                            key: docRef.id,
+                                        })
+                                        objetoNuevo.push({ key: docRef.id })
+                                        setTasks([...tasks, objetoNuevo])
+                                        setIdDoc(docRef.id)
+                                        
+                                        setLoading(false)
+                                    }
+                                    createTask()
+                                } catch (e) {
+                                console.error("Error adding document: ", e);
                                 }
-                                setOriginData([...originData, objetoNuevo])
                             }
                         }
                     })
@@ -323,29 +359,29 @@ import { Redirect } from 'react-router-dom';
         })
     }
 
-    useEffect(() => {
-        console.log(originData)
-        console.log(originData.length)
-        setIssues(originData)
-    }, [originData])
-
-    return (
-        userState === true ?
-            <Content style={{ margin: '0 16px' }}>
-                <Breadcrumb style={{ margin: '16px 0' }}>
-                    <Breadcrumb.Item>User</Breadcrumb.Item>
-                    <Breadcrumb.Item>My Issues</Breadcrumb.Item>
-                </Breadcrumb>
-                <hr />
-                <div style={{ padding: 24, minHeight: 360 }}>
-                    <h5>All Issues</h5>
-                        <hr style={{ marginBottom: 35 }} />
-                    <Tooltip title="Add Issue">
-                        <Button type="primary" shape="circle" icon={<AppstoreAddOutlined />} size="large" onClick={createIssue} style={{ marginBottom: 10 }}/>
-                    </Tooltip>
-                    <EditableTable />
-                </div>
-            </Content> :
-            <Redirect to='./' />
-    )
+    if (loading === false) {
+        return (
+            userState === true ?
+                <Content style={{ margin: '0 16px' }}>
+                    <Breadcrumb style={{ margin: '16px 0' }}>
+                        <Breadcrumb.Item>User</Breadcrumb.Item>
+                        <Breadcrumb.Item>My Tasks</Breadcrumb.Item>
+                    </Breadcrumb>
+                    <hr />
+                    <div style={{ padding: 24, minHeight: 360 }}>
+                        <h5>All Tasks</h5>
+                            <hr style={{ marginBottom: 35 }} />
+                        <Tooltip title="Add Issue">
+                            <Button type="primary" shape="circle" icon={<AppstoreAddOutlined />} size="large" onClick={createIssue} style={{ marginBottom: 10 }}/>
+                        </Tooltip>
+                        <EditableTable />
+                    </div>
+                </Content> :
+                <Redirect to='./' />
+        )
+    } else {
+        return <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <Spin size="large" tip="Loading..." />
+        </div>
+    }
 }

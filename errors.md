@@ -1,0 +1,2 @@
+1. DASHBOARD:
+El loader agrandarlo a toda la pantalla, ya que cuando se inicia sesión rápido mientras se están cargando los datos, marca un error por querer abrir la sesión sin haber cargado los datos antes.
