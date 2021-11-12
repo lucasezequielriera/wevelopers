@@ -7,7 +7,7 @@ import { Row, Col } from 'react-bootstrap'
 import { DataContext } from '../../context/DataContext';
 import { Redirect } from 'react-router-dom';
 import { collection, getDocs } from "firebase/firestore";
-import db from '../../config/firebase/firebase'
+import db from '../../config/firebase/firebase';
 
 export default function Dashboard() {
     const {t, i18n} = useTranslation("global");

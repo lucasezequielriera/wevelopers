@@ -4,7 +4,7 @@ import { Column } from '@ant-design/charts';
 import { DownloadOutlined, EditOutlined } from '@ant-design/icons';
 import { Row, Col } from 'react-bootstrap'
 
-export default function PersonalHome() {
+export default function PersonalFiles() {
 
     const { Content } = Layout;
 
@@ -49,7 +49,7 @@ export default function PersonalHome() {
             <Breadcrumb style={{ margin: '16px 0' }}>
                 <Breadcrumb.Item>User</Breadcrumb.Item>
                 <Breadcrumb.Item>Personal</Breadcrumb.Item>
-                <Breadcrumb.Item>My Home Expenses</Breadcrumb.Item>
+                <Breadcrumb.Item>My Files</Breadcrumb.Item>
             </Breadcrumb>
             <hr />
             <div style={{ display: 'flex', flexFlow: 'row' }}>

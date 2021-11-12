@@ -14,8 +14,8 @@ import db from '../../config/firebase/firebase';
     const { Content } = Layout;
     const { setIssues, userState } = useContext(DataContext)
 
-    const [tasks, setTasks] = useState([])
     const [loading, setLoading] = useState(false)
+    const [tasks, setTasks] = useState([])
     const [idDoc, setIdDoc] = useState("")
 
     // TODAS LAS TAREAS DEL USUARIO //

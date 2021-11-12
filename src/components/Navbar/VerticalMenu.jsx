@@ -6,15 +6,14 @@ import './styles.css';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Dashboard from '../../pages/Dashboard/Dashboard';
 import MyTasks from '../../pages/MyTasks/MyTasks';
-import PersonalExpenses from '../../pages/Personal/Expenses/PersonalExpenses';
-import PersonalFamily from '../../pages/Personal/Family/PersonalFamily';
-import PersonalHome from '../../pages/Personal/Home/PersonalHome';
-import PersonalFiles from '../../pages/Personal/Files/PersonalFiles';
+import PersonalFinances from '../../pages/Finances/Personal/Finances';
+import PersonalFinancesDetail from '../../pages/Finances/Personal/FinancesDetail';
+import HomeFinances from '../../pages/Finances/Home/Finances';
+import Files from '../../pages/Finances/Files/Files';
 import ProfessionalWork1 from '../../pages/Professional/Work1/ProfessionalWork1';
 import ProfessionalWork2 from '../../pages/Professional/Work2/ProfessionalWork2';
 import Settings from '../../pages/Settings/Settings';
-import PersonalExpensesDetail from '../../pages/Personal/Expenses/PersonalExpensesDetail';
-import Home from '../../pages/Home/Home';
+import Welcome from '../../pages/Welcome/Welcome';
 import { DataContext } from '../../context/DataContext';
 
 export default function VerticalMenu() {
@@ -73,29 +72,26 @@ export default function VerticalMenu() {
                             <Menu.Item key="2" icon={<DesktopOutlined />}>
                                 <Link to="/MyTasks">My Tasks</Link>
                             </Menu.Item>
-                            <SubMenu key="sub1" icon={<UserOutlined />} title="Personal">
+                            <SubMenu key="sub1" icon={<UserOutlined />} title="Finances">
                                 <Menu.Item key="3">
-                                    <Link to="/Personal/Expenses">Expenses</Link>
+                                    <Link to="/Finances/Personal">Personal</Link>
                                 </Menu.Item>
                                 <Menu.Item key="4">
-                                    <Link to="/Personal/Home">Home</Link>
+                                    <Link to="/Finances/Home">Home</Link>
                                 </Menu.Item>
                                 <Menu.Item key="5">
-                                    <Link to="/Personal/Family">Family</Link>
-                                </Menu.Item>
-                                <Menu.Item key="6">
-                                    <Link to="/Personal/Files">Files</Link>
+                                    <Link to="/Finances/Files">Files</Link>
                                 </Menu.Item>
                             </SubMenu>
                             <SubMenu key="sub2" icon={<TeamOutlined />} title="Professional">
-                                <Menu.Item key="7">
+                                <Menu.Item key="6">
                                     <Link to="/Professional/Work1">Work 1</Link>
                                 </Menu.Item>
-                                <Menu.Item key="8">
+                                <Menu.Item key="7">
                                     <Link to="/Professional/Work2">Work 2</Link>
                                 </Menu.Item>
                             </SubMenu>
-                            <Menu.Item key="9" icon={<SettingOutlined />}>
+                            <Menu.Item key="8" icon={<SettingOutlined />}>
                                 <Link to="/Settings">Settings</Link>
                             </Menu.Item>
                             </Fragment> :
@@ -115,15 +111,14 @@ export default function VerticalMenu() {
                         <Switch>
                             <Route exact path="/Dashboard"><Dashboard /></Route>
                             <Route exact path="/MyTasks"><MyTasks /></Route>
-                            <Route exact path="/Personal/Expenses/Detail"><PersonalExpensesDetail /></Route>
-                            <Route exact path="/Personal/Expenses"><PersonalExpenses /></Route>
-                            <Route exact path="/Personal/Home"><PersonalHome /></Route>
-                            <Route exact path="/Personal/Family"><PersonalFamily /></Route>
-                            <Route exact path="/Personal/Files"><PersonalFiles /></Route>
+                            <Route exact path="/Finances/Personal/FinancesDetail"><PersonalFinancesDetail /></Route>
+                            <Route exact path="/Finances/Personal"><PersonalFinances /></Route>
+                            <Route exact path="/Finances/Home"><HomeFinances /></Route>
+                            <Route exact path="/Finances/Files"><Files /></Route>
                             <Route exact path="/Professional/Work1"><ProfessionalWork1 /></Route>
                             <Route exact path="/Professional/Work2"><ProfessionalWork2 /></Route>
                             <Route exact path="/Settings"><Settings /></Route>
-                            <Route exact path="/"><Home /></Route>
+                            <Route exact path="/"><Welcome /></Route>
                         </Switch>
                         <Footer style={{ textAlign: 'center' }}>All Rights Reserved ©2021 Created & Designed by Wevelopers</Footer>
                     </Layout>
