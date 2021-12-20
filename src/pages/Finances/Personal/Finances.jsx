@@ -74,7 +74,7 @@ export default function PersonalExpenses() {
             <div style={{ display: 'flex', flexFlow: 'row' }}>
                 <div style={{ width: '50%', padding: 24, minHeight: 360 }}>
                   <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between' }}>
-                    <h5 style={{ alignSelf: 'center', marginBottom: 0 }}>Graphic Finances in November</h5>
+                    <h5 style={{ alignSelf: 'center', marginBottom: 0 }}>Gráfico de finanzas de noviembre</h5>
                     <div style={{ display: 'flex', flexFlow: 'row nowrap' }}>
                       <Tooltip title="Download graph">
                         <Button type="primary" shape="circle" icon={<DownloadOutlined /> } size='large' onClick={downloadImage} style={{ marginLeft: 5 }} />
@@ -86,7 +86,7 @@ export default function PersonalExpenses() {
                 </div>
                 <div style={{ width: '50%', padding: 24, minHeight: 360 }}>
                   <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between' }}>
-                    <h5 style={{ alignSelf: 'center', marginBottom: 0 }}>My Personal Finances in November</h5>
+                    <h5 style={{ alignSelf: 'center', marginBottom: 0 }}>Finanzas personales de noviembre</h5>
                     <div style={{ display: 'flex', flexFlow: 'row nowrap' }}>
                       <Tooltip title="View Detail">
                         <Link to="/Finances/Personal/FinancesDetail"><Button type="primary" shape="circle" icon={<EyeOutlined /> } size='large' /></Link>
