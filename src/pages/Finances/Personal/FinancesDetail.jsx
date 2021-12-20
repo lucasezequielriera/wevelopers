@@ -53,94 +53,18 @@ export default function PersonalExpensesDetail() {
             })
             
             const querySnapshot1 = await getDocs(collection(db, `users/4Wl0ABf75BtglqcPOtJT/personal_finances/9TBYGFRDRJFwjxA1USPU/data`));
-            const querySnapshotMap1 = querySnapshot1.docs.map((user) => user.data())
-            // const querySnapshotMap1 = querySnapshot1.docs.map((user) => {
-            //     const docRef = user.id
-            //     // AGREGANDO DOCUMENT_UID A CADA TABLA //
-            //     const changeData = async () => {
-            //         await updateDoc(doc(db, `users/4Wl0ABf75BtglqcPOtJT/personal_finances/9TBYGFRDRJFwjxA1USPU/data/${docRef}`), {
-            //             document_uid: docRefs[0]
-            //         })
-            //     }
-                
-            //     changeData()
-            //     return user.data()
-            // });
-
             const querySnapshot2 = await getDocs(collection(db, "users/4Wl0ABf75BtglqcPOtJT/personal_finances/BvyanCMS8MKu8D5WcXyP/data"));
-            const querySnapshotMap2 = querySnapshot2.docs.map((user) => user.data())
-            // const querySnapshotMap2 = querySnapshot2.docs.map((user) => {
-            //     const docRef = user.id
-            //     // AGREGANDO DOCUMENT_UID A CADA TABLA //
-            //     const changeData = async () => {
-            //         await updateDoc(doc(db, `users/4Wl0ABf75BtglqcPOtJT/personal_finances/BvyanCMS8MKu8D5WcXyP/data/${docRef}`), {
-            //             document_uid: docRefs[1]
-            //         })
-            //     }
-                
-            //     changeData()
-            //     return user.data()
-            // });
-
             const querySnapshot3 = await getDocs(collection(db, "users/4Wl0ABf75BtglqcPOtJT/personal_finances/LGpRronvr4zYOElPgJeF/data"));
-            const querySnapshotMap3 = querySnapshot3.docs.map((user) => user.data())
-            // const querySnapshotMap3 = querySnapshot3.docs.map((user) => {
-            //     const docRef = user.id
-            //     // AGREGANDO DOCUMENT_UID A CADA TABLA //
-            //     const changeData = async () => {
-            //         await updateDoc(doc(db, `users/4Wl0ABf75BtglqcPOtJT/personal_finances/LGpRronvr4zYOElPgJeF/data/${docRef}`), {
-            //             document_uid: docRefs[2]
-            //         })
-            //     }
-                
-            //     changeData()
-            //     return user.data()
-            // });
-
             const querySnapshot4 = await getDocs(collection(db, "users/4Wl0ABf75BtglqcPOtJT/personal_finances/RQX6AtMfFk7yIEq4hXpg/data"));
-            const querySnapshotMap4 = querySnapshot4.docs.map((user) => user.data())
-            // const querySnapshotMap4 = querySnapshot4.docs.map((user) => {
-            //     const docRef = user.id
-            //     // AGREGANDO DOCUMENT_UID A CADA TABLA //
-            //     const changeData = async () => {
-            //         await updateDoc(doc(db, `users/4Wl0ABf75BtglqcPOtJT/personal_finances/RQX6AtMfFk7yIEq4hXpg/data/${docRef}`), {
-            //             document_uid: docRefs[3]
-            //         })
-            //     }
-                
-            //     changeData()
-            //     return user.data()
-            // });
-
             const querySnapshot5 = await getDocs(collection(db, "users/4Wl0ABf75BtglqcPOtJT/personal_finances/hNoiZsmoq5vRgapQAsve/data"));
-            const querySnapshotMap5 = querySnapshot5.docs.map((user) => user.data())
-            // const querySnapshotMap5 = querySnapshot5.docs.map((user) => {
-            //     const docRef = user.id
-            //     // AGREGANDO DOCUMENT_UID A CADA TABLA //
-            //     const changeData = async () => {
-            //         await updateDoc(doc(db, `users/4Wl0ABf75BtglqcPOtJT/personal_finances/hNoiZsmoq5vRgapQAsve/data/${docRef}`), {
-            //             document_uid: docRefs[4]
-            //         })
-            //     }
-                
-            //     changeData()
-            //     return user.data()
-            // });
-
             const querySnapshot6 = await getDocs(collection(db, "users/4Wl0ABf75BtglqcPOtJT/personal_finances/nWega9E8ey7sZiCT23sE/data"));
+
+            const querySnapshotMap1 = querySnapshot1.docs.map((user) => user.data())
+            const querySnapshotMap2 = querySnapshot2.docs.map((user) => user.data())
+            const querySnapshotMap3 = querySnapshot3.docs.map((user) => user.data())
+            const querySnapshotMap4 = querySnapshot4.docs.map((user) => user.data())
+            const querySnapshotMap5 = querySnapshot5.docs.map((user) => user.data())
             const querySnapshotMap6 = querySnapshot6.docs.map((user) => user.data())
-            // const querySnapshotMap6 = querySnapshot6.docs.map((user) => {
-            //     const docRef = user.id
-            //     // AGREGANDO KEY A CADA TABLA //
-            //     const changeData = async () => {
-            //         await updateDoc(doc(db, `users/4Wl0ABf75BtglqcPOtJT/personal_finances/nWega9E8ey7sZiCT23sE/data/${docRef}`), {
-            //             document_uid: docRefs[5]
-            //         })
-            //     }
-                
-            //     changeData()
-            //     return user.data()
-            // });
             
             setTables(financesDataSearched)
             setData1(querySnapshotMap1)
@@ -203,7 +127,7 @@ export default function PersonalExpensesDetail() {
         setValues([...values, unicos])
     }
 
-    if (loading === false && data6.length >= 1) {
+    if (loading === false ) {
         return (
             // userState === true ?
                 <Content style={{ margin: '0 16px' }}>

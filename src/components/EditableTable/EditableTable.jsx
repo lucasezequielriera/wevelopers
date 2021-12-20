@@ -11,133 +11,23 @@ const EditableTable = ({ tableSize, data, marginBottom, title, response, tables,
     // Guardar datos en un nuevo array //
     const [originData, setOriginData] = useState(data.length <= 0 ? [] : data);
     const [numTotal, setNumTotal] = useState(0);
-    const [loading, setLoading] = useState(originData.length <= 0 ? true : false)
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
+        const fetchData = async () => {
         setLoading(true)
 
         const map1 = originData.map((dato) => dato.amount)
         const cadaNumero1 = map1.map((data) => Number(data))
         // ESTO ES EL RESULTADO DE LA TABLA //
-        const total = cadaNumero1.reduce((a, b) => a + b, 0)
+        const total = await cadaNumero1.reduce((a, b) => a + b, 0)
         setNumTotal(total)
-        // Actualiza el valor total de cada tabla con useState en variable de afuera de UseEffect //
-        // console.log('Total:', total)
 
         setLoading(false)
-    }, [originData])
+        }
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         setLoading(true)
-
-    //         // const docRefs = [];
-
-    //         // // TODAS LAS TABLAS Y SU VALOR INICIAL AGREGANDO A LA DB SU KEY CUANDO SE LLAMAN //
-    //         // const finances = await getDocs(collection(db, "users/4Wl0ABf75BtglqcPOtJT/personal_finances"));
-    //         // finances.docs.map((user) => {
-    //         //     const docRef = user.id
-    //         //     docRefs.push(docRef)
-    //         //     // AGREGANDO KEY A CADA TABLA //
-    //         //     const changeData = async () => {
-    //         //         await updateDoc(doc(db, `users/4Wl0ABf75BtglqcPOtJT/personal_finances/${docRef}`), {
-    //         //             key: user.id
-    //         //         })
-    //         //     }
-
-    //         //     changeData()
-    //         //     return user.data()
-    //         // })
-            
-    //         // const querySnapshot1 = await getDocs(collection(db, `users/4Wl0ABf75BtglqcPOtJT/personal_finances/9TBYGFRDRJFwjxA1USPU/data`));
-    //         // querySnapshot1.docs.map((user) => {
-    //         //     const docRef = user.id
-    //         //     // AGREGANDO DOCUMENT_UID A CADA TABLA //
-    //         //     const changeData = async () => {
-    //         //         await updateDoc(doc(db, `users/4Wl0ABf75BtglqcPOtJT/personal_finances/9TBYGFRDRJFwjxA1USPU/data/${docRef}`), {
-    //         //             document_uid: docRefs[0]
-    //         //         })
-    //         //     }
-                
-    //         //     changeData()
-    //         //     return user.data()
-    //         // });
-
-    //         // const querySnapshot2 = await getDocs(collection(db, "users/4Wl0ABf75BtglqcPOtJT/personal_finances/BvyanCMS8MKu8D5WcXyP/data"));
-    //         // querySnapshot2.docs.map((user) => {
-    //         //     const docRef = user.id
-    //         //     // AGREGANDO DOCUMENT_UID A CADA TABLA //
-    //         //     const changeData = async () => {
-    //         //         await updateDoc(doc(db, `users/4Wl0ABf75BtglqcPOtJT/personal_finances/BvyanCMS8MKu8D5WcXyP/data/${docRef}`), {
-    //         //             document_uid: docRefs[1]
-    //         //         })
-    //         //     }
-                
-    //         //     changeData()
-    //         //     return user.data()
-    //         // });
-
-    //         // const querySnapshot3 = await getDocs(collection(db, "users/4Wl0ABf75BtglqcPOtJT/personal_finances/LGpRronvr4zYOElPgJeF/data"));
-    //         // querySnapshot3.docs.map((user) => {
-    //         //     const docRef = user.id
-    //         //     // AGREGANDO DOCUMENT_UID A CADA TABLA //
-    //         //     const changeData = async () => {
-    //         //         await updateDoc(doc(db, `users/4Wl0ABf75BtglqcPOtJT/personal_finances/LGpRronvr4zYOElPgJeF/data/${docRef}`), {
-    //         //             document_uid: docRefs[2]
-    //         //         })
-    //         //     }
-                
-    //         //     changeData()
-    //         //     return user.data()
-    //         // });
-
-    //         // const querySnapshot4 = await getDocs(collection(db, "users/4Wl0ABf75BtglqcPOtJT/personal_finances/RQX6AtMfFk7yIEq4hXpg/data"));
-    //         // querySnapshot4.docs.map((user) => {
-    //         //     const docRef = user.id
-    //         //     // AGREGANDO DOCUMENT_UID A CADA TABLA //
-    //         //     const changeData = async () => {
-    //         //         await updateDoc(doc(db, `users/4Wl0ABf75BtglqcPOtJT/personal_finances/RQX6AtMfFk7yIEq4hXpg/data/${docRef}`), {
-    //         //             document_uid: docRefs[3]
-    //         //         })
-    //         //     }
-                
-    //         //     changeData()
-    //         //     return user.data()
-    //         // });
-
-    //         // const querySnapshot5 = await getDocs(collection(db, "users/4Wl0ABf75BtglqcPOtJT/personal_finances/hNoiZsmoq5vRgapQAsve/data"));
-    //         // querySnapshot5.docs.map((user) => {
-    //         //     const docRef = user.id
-    //         //     // AGREGANDO DOCUMENT_UID A CADA TABLA //
-    //         //     const changeData = async () => {
-    //         //         await updateDoc(doc(db, `users/4Wl0ABf75BtglqcPOtJT/personal_finances/hNoiZsmoq5vRgapQAsve/data/${docRef}`), {
-    //         //             document_uid: docRefs[4]
-    //         //         })
-    //         //     }
-                
-    //         //     changeData()
-    //         //     return user.data()
-    //         // });
-
-    //         // const querySnapshot6 = await getDocs(collection(db, "users/4Wl0ABf75BtglqcPOtJT/personal_finances/nWega9E8ey7sZiCT23sE/data"));
-    //         // querySnapshot6.docs.map((user) => {
-    //         //     const docRef = user.id
-    //         //     // AGREGANDO KEY A CADA TABLA //
-    //         //     const changeData = async () => {
-    //         //         await updateDoc(doc(db, `users/4Wl0ABf75BtglqcPOtJT/personal_finances/nWega9E8ey7sZiCT23sE/data/${docRef}`), {
-    //         //             document_uid: docRefs[5]
-    //         //         })
-    //         //     }
-                
-    //         //     changeData()
-    //         //     return user.data()
-    //         // });
-
-    //         setLoading(false)
-    //     }
-
-    //     fetchData()
-    // }, [])
+        fetchData()
+    }, [])
 
     const findUid = () => {
         switch(id) {
@@ -499,7 +389,7 @@ const EditableTable = ({ tableSize, data, marginBottom, title, response, tables,
 
     // -------------------------------- //
 
-    if (loading === false && originData) {
+    if (loading === false && data) {
     return (
         <div style={{ marginBottom: marginBottom + 'px' }}>
             <h6>{title} <Button type="primary" ghost onClick={() => response(numTotal)}>Total: ${numTotal}</Button></h6>
@@ -525,7 +415,7 @@ const EditableTable = ({ tableSize, data, marginBottom, title, response, tables,
                 />
             </Form>
         </div>
-    );
+    )
     } else {
         return (
             <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

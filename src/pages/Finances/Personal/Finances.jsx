@@ -95,9 +95,9 @@ export default function PersonalExpenses() {
                   </div>
                   <hr style={{ marginBottom: 35 }} />
                   <Row>
-                  {data.map((data) => {
+                  {data.map((data, dataIndex) => {
                     return (
-                      <Col style={{ minWidth: 200, maxWidth: 250 }}>
+                      <Col key={dataIndex} style={{ minWidth: 200, maxWidth: 250 }}>
                           <h6>{data.description}</h6><hr />
                           <h2 style={{ color: 'rgb(94, 149, 244)' }}>${data.value}</h2>
                       </Col>
