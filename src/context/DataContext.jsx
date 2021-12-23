@@ -8,6 +8,7 @@ const userData = [
 
 const estadoInicial = false;
 
+
 const initialData = [
     { description: 'Ingresos',   value: 302800 },
     { description: 'Gastos',     value: 39000 },

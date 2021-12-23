@@ -14,12 +14,6 @@ export default function PersonalExpensesDetail() {
     const { Content } = Layout;
     const { setValues, values } = useContext(DataContext)
 
-    // const [dataIngresosPesos, setDataIngresosPesos] = useState([])
-    // const [dataIngresosDolares, setDataIngresosDolares] = useState([])
-    // const [dataGastosMensuales, setDataGastosMensuales] = useState([])
-    // const [dataAhorrosMensuales, setDataAhorrosMensuales] = useState([])
-    // const [dataDeudas, setDataDeudas] = useState([])
-    // const [dataPrestamos, setDataPrestamos] = useState([])
     const [loading, setLoading] = useState(false)
     const [tables, setTables] = useState([])
     const [totalData, setTotalData] = useState([])
@@ -51,7 +45,7 @@ export default function PersonalExpensesDetail() {
                 changeData()
                 return user.data()
             })
-            
+                        
             const querySnapshot1 = await getDocs(collection(db, `users/4Wl0ABf75BtglqcPOtJT/personal_finances/9TBYGFRDRJFwjxA1USPU/data`));
             const querySnapshot2 = await getDocs(collection(db, "users/4Wl0ABf75BtglqcPOtJT/personal_finances/BvyanCMS8MKu8D5WcXyP/data"));
             const querySnapshot3 = await getDocs(collection(db, "users/4Wl0ABf75BtglqcPOtJT/personal_finances/LGpRronvr4zYOElPgJeF/data"));
@@ -73,6 +67,8 @@ export default function PersonalExpensesDetail() {
             setData4(querySnapshotMap4)
             setData5(querySnapshotMap5)
             setData6(querySnapshotMap6)
+
+            console.log(tables)
 
             setLoading(false)
         }
@@ -151,7 +147,6 @@ export default function PersonalExpensesDetail() {
                                         data={table.data}
                                         tables={tables}
                                         id={key}
-                                        response={(e) => response({name: 'Ingresos', value: e})}
                                     />
                                 </Col>
 

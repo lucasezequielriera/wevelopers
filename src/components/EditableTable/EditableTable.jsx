@@ -17,17 +17,39 @@ const EditableTable = ({ tableSize, data, marginBottom, title, response, tables,
         const fetchData = async () => {
         setLoading(true)
 
+        // ARRAY PARA EL DOCREF DE CADA COLUMNA SIN REPETIRSE //
+        const docRefs = [];
+        docRefs.reduce((a, b) => a + b, 0)
+
+        // SUMANDO LOS VALORES DE CADA TABLA //
         const map1 = originData.map((dato) => dato.amount)
         const cadaNumero1 = map1.map((data) => Number(data))
+
         // ESTO ES EL RESULTADO DE LA TABLA //
         const total = await cadaNumero1.reduce((a, b) => a + b, 0)
         setNumTotal(total)
+
+        // CONSIGUIENDO LOS DOCREF'S //
+        const finances = await getDocs(collection(db, "users/4Wl0ABf75BtglqcPOtJT/personal_finances"));
+        finances.docs.map((item) => {
+            const docRef = item.id
+            docRefs.push(docRef)
+        })
+
+        // AGREGANDO KEY A CADA TABLA //
+        const changeData = async () => {
+            await updateDoc(doc(db, `users/4Wl0ABf75BtglqcPOtJT/personal_finances/${docRefs[id]}`), {
+                value: total
+            })
+        }
+
+        changeData()
 
         setLoading(false)
         }
 
         fetchData()
-    }, [])
+    }, [originData])
 
     const findUid = () => {
         switch(id) {
@@ -392,7 +414,7 @@ const EditableTable = ({ tableSize, data, marginBottom, title, response, tables,
     if (loading === false && data) {
     return (
         <div style={{ marginBottom: marginBottom + 'px' }}>
-            <h6>{title} <Button type="primary" ghost onClick={() => response(numTotal)}>Total: ${numTotal}</Button></h6>
+            <h6>{title} <Button type="primary" ghost>Total: ${numTotal}</Button></h6>
             <hr />
             <Tooltip title="Add Issue">
                 <Button type="primary" shape="circle" icon={<AppstoreAddOutlined />} size="large" onClick={createIssue} style={{ marginBottom: 10 }}/>

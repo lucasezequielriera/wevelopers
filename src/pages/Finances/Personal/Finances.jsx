@@ -1,4 +1,4 @@
-import React, { useRef, useContext, useState } from 'react';
+import React, { useRef, useContext, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Layout, Breadcrumb, Button, Tooltip, Spin } from 'antd';
 import { Column } from '@ant-design/charts';
@@ -14,9 +14,39 @@ export default function PersonalExpenses() {
   const {t, i18n} = useTranslation("global");
 
   const { Content } = Layout;
-  const { data, setData, values, userState } = useContext(DataContext);
+  const { data, setData, userState } = useContext(DataContext);
 
   const [loading, setLoading] = useState(false)
+  const [totalValues, setTotalValues] = useState([])
+
+  useEffect(() => {
+    const fetchData = async () => {
+    setLoading(true)
+
+    // CONSIGUIENDO LOS DOCREF'S //
+    const finances = await getDocs(collection(db, "users/4Wl0ABf75BtglqcPOtJT/personal_finances"));
+    finances.docs.map((item) => {
+        console.log(item.data())
+        setTotalValues([...totalValues, item.data()])
+    })
+
+    setLoading(false)
+    }
+
+    fetchData()
+}, [])
+
+//   const values = [
+//     { description: 'Ingresos',   value: 302800 },
+//     { description: 'Gastos',     value: 39000 },
+//     { description: 'Deudas',     value: 0 },
+//     { description: 'Préstamos',  value: 10000 },
+//     { description: 'Ahorro $',   value: 21600 },
+//     { description: 'Ahorro u$d', value: (1800 * 180) },
+//     // { description: 'Efectivo',   value: 4000 },
+// ];
+
+console.log(totalValues)
 
   const config = {
     data,
@@ -37,30 +67,29 @@ export default function PersonalExpenses() {
   };
 
   const actualizarEstado = () => {
-    const mapeado = values.map((valor) => valor[0])
 
-    const ingresosMap = mapeado.find((element) => element.name === 'Ingresos');
-    const gastosMap = mapeado.find((element) => element.name === 'Gastos');
-    const deudasMap = mapeado.find((element) => element.name === 'Deudas');
-    const prestamosMap = mapeado.find((element) => element.name === 'Préstamos');
-    const ahorro$Map = mapeado.find((element) => element.name === 'Ahorro $');
-    const ahorroU$dMap = mapeado.find((element) => element.name === 'Ahorro u$d');
+    const ingresosMap = totalValues.find((element) => element.name === 'Ingresos ($)');
+    const gastosMap = totalValues.find((element) => element.name === 'Gastos');
+    const deudasMap = totalValues.find((element) => element.name === 'Deudas');
+    const prestamosMap = totalValues.find((element) => element.name === 'Préstamos');
+    const ahorro$Map = totalValues.find((element) => element.name === 'Ahorros');
+    // const ahorroU$dMap = mapeado.find((element) => element.name === 'Ahorro u$d');
     // const efectivoMap = mapeado.find((element) => element.name === 'Efectivo');
 
-    console.log(mapeado)
+    console.log(totalValues) // ESTOY VIENDO QUE NO MAPEA LA DATA PARA MOSTRAR //
 
     setData([
-      { description: 'Ingresos',   value: ingresosMap.value === undefined ? 0 : ingresosMap.value },
+      { description: 'Ingresos ($)',   value: ingresosMap.value === undefined ? 0 : ingresosMap.value },
       { description: 'Gastos',     value: gastosMap.value === undefined ? 0 : gastosMap.value },
       { description: 'Deudas',     value: deudasMap.value === undefined ? 0 : deudasMap.value },
       { description: 'Préstamos',  value: prestamosMap.value === undefined ? 0 : prestamosMap.value },
-      { description: 'Ahorro $',   value: ahorro$Map.value === undefined ? 0 : ahorro$Map.value },
-      { description: 'Ahorro u$d', value: ahorroU$dMap.value === undefined ? 0 : ahorroU$dMap.value },
+      { description: 'Ahorros',   value: ahorro$Map.value === undefined ? 0 : ahorro$Map.value },
+      // { description: 'Ahorro u$d', value: ahorroU$dMap.value === undefined ? 0 : ahorroU$dMap.value },
       // { description: 'Efectivo',   value: efectivoMap.value === undefined ? 0 : efectivoMap.value },
     ])
   }
 
-  if (loading === false) {
+  if (loading === false && totalValues) {
     return (
       userState === true ?
         <Content style={{ margin: '0 16px' }}>
@@ -89,7 +118,9 @@ export default function PersonalExpenses() {
                     <h5 style={{ alignSelf: 'center', marginBottom: 0 }}>Finanzas personales de noviembre</h5>
                     <div style={{ display: 'flex', flexFlow: 'row nowrap' }}>
                       <Tooltip title="View Detail">
-                        <Link to="/Finances/Personal/FinancesDetail"><Button type="primary" shape="circle" icon={<EyeOutlined /> } size='large' /></Link>
+                        <Link to="/Finances/Personal/FinancesDetail">
+                          <Button type="primary" shape="circle" icon={<EyeOutlined /> } size='large' />
+                        </Link>
                       </Tooltip>
                     </div>
                   </div>
@@ -98,7 +129,7 @@ export default function PersonalExpenses() {
                   {data.map((data, dataIndex) => {
                     return (
                       <Col key={dataIndex} style={{ minWidth: 200, maxWidth: 250 }}>
-                          <h6>{data.description}</h6><hr />
+                          <h6>{data.description}</h6><hr />{console.log(data)}
                           <h2 style={{ color: 'rgb(94, 149, 244)' }}>${data.value}</h2>
                       </Col>
                     )
