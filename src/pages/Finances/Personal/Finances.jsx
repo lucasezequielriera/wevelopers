@@ -14,10 +14,12 @@ export default function PersonalExpenses() {
   const {t, i18n} = useTranslation("global");
 
   const { Content } = Layout;
-  const { data, setData, userState } = useContext(DataContext);
+  const { userState } = useContext(DataContext);
 
   const [loading, setLoading] = useState(false)
-  const [totalValues, setTotalValues] = useState([])
+  const [totalValues, setTotalValues] = useState()
+  const [dataGraphs, setDataGraphs] = useState([])
+  const [ready, setReady] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,33 +27,37 @@ export default function PersonalExpenses() {
 
     // CONSIGUIENDO LOS DOCREF'S //
     const finances = await getDocs(collection(db, "users/4Wl0ABf75BtglqcPOtJT/personal_finances"));
-    finances.docs.map((item) => {
-        console.log(item.data())
-        setTotalValues([...totalValues, item.data()])
+    const array = []
+
+    await finances.docs.map((item) => {
+        array.push(item.data())
     })
+
+    setTotalValues(array)
+
+    const dataG = await array.map(data => ({name: data.name, value: data.value }))
+
+    setDataGraphs(dataG)
 
     setLoading(false)
     }
 
     fetchData()
-}, [])
+  }, [])
 
-//   const values = [
-//     { description: 'Ingresos',   value: 302800 },
-//     { description: 'Gastos',     value: 39000 },
-//     { description: 'Deudas',     value: 0 },
-//     { description: 'Préstamos',  value: 10000 },
-//     { description: 'Ahorro $',   value: 21600 },
-//     { description: 'Ahorro u$d', value: (1800 * 180) },
-//     // { description: 'Efectivo',   value: 4000 },
-// ];
+  // const data = dataGraphs.map(x => x)
 
-console.log(totalValues)
+  console.log(dataGraphs.map(x => x.name))
+
+  const data = dataGraphs.map(x => [{ name: x.name, value: 38 }]);
+
+  console.log(dataGraphs)
+  console.log(data)
 
   const config = {
     data,
     height: 400,
-    xField: 'description',
+    xField: 'name',
     yField: 'value',
     point: {
       size: 5,
@@ -66,32 +72,11 @@ console.log(totalValues)
       ref.current.downloadImage();
   };
 
-  const actualizarEstado = () => {
+  console.log(totalValues) // ESTOY VIENDO QUE NO MAPEA LA DATA PARA MOSTRAR //
 
-    const ingresosMap = totalValues.find((element) => element.name === 'Ingresos ($)');
-    const gastosMap = totalValues.find((element) => element.name === 'Gastos');
-    const deudasMap = totalValues.find((element) => element.name === 'Deudas');
-    const prestamosMap = totalValues.find((element) => element.name === 'Préstamos');
-    const ahorro$Map = totalValues.find((element) => element.name === 'Ahorros');
-    // const ahorroU$dMap = mapeado.find((element) => element.name === 'Ahorro u$d');
-    // const efectivoMap = mapeado.find((element) => element.name === 'Efectivo');
-
-    console.log(totalValues) // ESTOY VIENDO QUE NO MAPEA LA DATA PARA MOSTRAR //
-
-    setData([
-      { description: 'Ingresos ($)',   value: ingresosMap.value === undefined ? 0 : ingresosMap.value },
-      { description: 'Gastos',     value: gastosMap.value === undefined ? 0 : gastosMap.value },
-      { description: 'Deudas',     value: deudasMap.value === undefined ? 0 : deudasMap.value },
-      { description: 'Préstamos',  value: prestamosMap.value === undefined ? 0 : prestamosMap.value },
-      { description: 'Ahorros',   value: ahorro$Map.value === undefined ? 0 : ahorro$Map.value },
-      // { description: 'Ahorro u$d', value: ahorroU$dMap.value === undefined ? 0 : ahorroU$dMap.value },
-      // { description: 'Efectivo',   value: efectivoMap.value === undefined ? 0 : efectivoMap.value },
-    ])
-  }
-
-  if (loading === false && totalValues) {
+  if (dataGraphs && loading === false) {
     return (
-      userState === true ?
+      // userState === true ?
         <Content style={{ margin: '0 16px' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>
                 <Breadcrumb.Item>User</Breadcrumb.Item>
@@ -99,14 +84,13 @@ console.log(totalValues)
                 <Breadcrumb.Item>Personal</Breadcrumb.Item>
             </Breadcrumb>
             <hr />
-            <Button type="primary" onClick={actualizarEstado}>Actualizar Valores</Button>
             <div style={{ display: 'flex', flexFlow: 'row' }}>
                 <div style={{ width: '50%', padding: 24, minHeight: 360 }}>
                   <div style={{ display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between' }}>
                     <h5 style={{ alignSelf: 'center', marginBottom: 0 }}>Gráfico de finanzas de noviembre</h5>
                     <div style={{ display: 'flex', flexFlow: 'row nowrap' }}>
                       <Tooltip title="Download graph">
-                        <Button type="primary" shape="circle" icon={<DownloadOutlined /> } size='large' onClick={downloadImage} style={{ marginLeft: 5 }} />
+                        <Button type="primary" shape="circle" icon={<DownloadOutlined /> } size='large' onClick={() => downloadImage()} style={{ marginLeft: 5 }} />
                       </Tooltip>
                     </div>
                   </div>
@@ -126,10 +110,10 @@ console.log(totalValues)
                   </div>
                   <hr style={{ marginBottom: 35 }} />
                   <Row>
-                  {data.map((data, dataIndex) => {
+                  {dataGraphs.map((data, dataIndex) => {
                     return (
                       <Col key={dataIndex} style={{ minWidth: 200, maxWidth: 250 }}>
-                          <h6>{data.description}</h6><hr />{console.log(data)}
+                          <h6>{data.name}</h6><hr />{console.log(data)}
                           <h2 style={{ color: 'rgb(94, 149, 244)' }}>${data.value}</h2>
                       </Col>
                     )
@@ -140,8 +124,8 @@ console.log(totalValues)
             <div className='text-center mt-5'>
               Resumenes mensuales como table y que se pueda abrir y descargar
             </div>
-        </Content> :
-        <Redirect to='./' />
+        </Content>
+        // : <Redirect to='./' />
     )
   } else {
     return (
