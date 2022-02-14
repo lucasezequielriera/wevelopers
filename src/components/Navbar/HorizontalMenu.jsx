@@ -7,6 +7,8 @@ import './styles.css';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import { DataContext } from '../../context/DataContext';
 import Login from '../Login/Login';
+import { collection, getDocs, doc, updateDoc, serverTimestamp } from "firebase/firestore";
+import db from '../../config/firebase/firebase';
 
 export default function HorizontalMenu() {
 
@@ -24,11 +26,6 @@ export default function HorizontalMenu() {
         (counterAlert === 0) ? setAlert(false) : setAlert(true);
     }, [counterAlert])
 
-    const changeSession = () => {
-        setUserState(!userState)
-        console.log(userState)
-    }
-
     const showModal = (buttonSelected) => {
         if (buttonSelected === 'alert') {
             setCounterAlert(0)
@@ -39,11 +36,23 @@ export default function HorizontalMenu() {
     };
 
     const handleOk = (buttonSelected) => {
+        console.log(user[0])
+
         if (buttonSelected === 'alert') {
             setIsModalVisible(false)
         } else if (buttonSelected === 'login') {
             setModalText('The modal will be closed after two seconds');
             setConfirmLoading(true);
+
+            const updateStatus = async () => {
+                // ACTUALIZAR STATUS DE USUARIO
+                const updateStatusUser = await doc(db, "users", user[0].uid);
+                await updateDoc(updateStatusUser, { status: false })
+                setUserState(false)
+            }
+
+            updateStatus()
+
             setTimeout(() => {
                 setVisible(false);
                 setConfirmLoading(false);
@@ -59,7 +68,7 @@ export default function HorizontalMenu() {
                 <Navbar variant="dark" style={{ backgroundColor: 'rgb(0, 21, 40)' }}>
                     <div style={{ margin: '0 10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' ,maxWidth: '100%'}}>
                         <Navbar.Brand style={{ width: 180 }}>
-                            <div style={{ color: 'white', textDecoration: 'none', textAlign: 'center' }}><img src={logo} alt="logo" style={{ width: 150, height: 50 }} onClick={changeSession} /></div>
+                            <div style={{ color: 'white', textDecoration: 'none', textAlign: 'center' }}><img src={logo} alt="logo" style={{ width: 150, height: 50 }} /></div>
                         </Navbar.Brand>
                         { userState === true ?
                         <Nav>
@@ -76,7 +85,7 @@ export default function HorizontalMenu() {
                             <Nav.Link to="/User" style={{ display: 'flex', flexFlow: 'row nowrap' }} onClick={() => showModal('login')}>
                                 <Link to="/User" style={{ display: 'flex', flexFlow: 'row nowrap' }} onClick={() => showModal('login')}>
                                     <UserOutlined style={{ fontSize: 20 }}/>
-                                    <p style={{ margin: 0, marginLeft: 5, color: 'rgb(255,100,73)' }}>{`Hi ${user[0].fullName}`}</p>
+                                    <p style={{ margin: 0, marginLeft: 5, color: 'rgb(255,100,73)' }}>{`Hi ${user[0].full_name}`}</p>
                                 </Link>
                             </Nav.Link>
                             <Modal

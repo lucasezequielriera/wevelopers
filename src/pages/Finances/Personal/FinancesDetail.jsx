@@ -139,8 +139,7 @@ export default function PersonalExpensesDetail() {
                         <hr style={{ marginBottom: 35 }} />
                         <Row>
                             {tablesInfo.map((table, key) => {
-
-                                return <Col style={{ minWidth: 700 }}>
+                                return <Col key={key} style={{ minWidth: 700 }}>
                                     <EditableTable title={table.name}
                                         tableSize="small"
                                         marginBottom="20"

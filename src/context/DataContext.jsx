@@ -1,13 +1,6 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState } from 'react';
 
 export const DataContext = createContext();
-
-const userData = [
-    { fullName: 'Lucas Riera', age: 25, city: 'Retiro, Buenos Aires, Argentina', username: 'lucasezequielriera@hotmail.com', password: 123}
-]
-
-const estadoInicial = false;
-
 
 const initialData = [
     { description: 'Ingresos',   value: 302800 },
@@ -25,8 +18,8 @@ const totalIssues = 0;
 
 export const DataProvider = ({ children }) => {
 
-    const [user, setUser] = useState(userData);
-    const [userState, setUserState] = useState(estadoInicial)
+    const [user, setUser] = useState([]);
+    const [userState, setUserState] = useState(user.length >= 1 ? user[0].status : false)
     const [data, setData] = useState(initialData);
     const [issues, setIssues] = useState(totalIssues)
     const [values, setValues] = useState(totalValues)
