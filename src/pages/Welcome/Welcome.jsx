@@ -6,10 +6,10 @@ import { DataContext } from '../../context/DataContext';
 export default function Home() {
     const [t, i18n] = useTranslation("global");
 
-    const { userState } = useContext(DataContext)
+    const { userState, user } = useContext(DataContext)
 
     return (
-    userState === true ?
+    userState === true && user.length >= 1 ?
     <Redirect to='./Dashboard' /> :
     <div style={{ width: '100%', height: 'calc(100vh - 74.38px - 70px)', display: 'flex', flexFlow: 'column', justifyContent: 'center' }}>
         <Redirect to='./' />

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState, Fragment } from 'react';
 import logo from '../../assets/images/wevelopers_fondo_negro.png';
-import { UserOutlined, BellOutlined, LockOutlined } from '@ant-design/icons';
-import { Badge, Modal, Alert, Button, Form, Input, Checkbox } from 'antd';
+import { UserOutlined, BellOutlined, LockOutlined, DownOutlined } from '@ant-design/icons';
+import { Badge, Modal, Alert, Button, Form, Input, Checkbox, Menu, Dropdown } from 'antd';
 import { Nav, Navbar } from 'react-bootstrap';
 import './styles.css';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
@@ -20,7 +20,7 @@ export default function HorizontalMenu() {
 
     const [visible, setVisible] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
-    const [modalText, setModalText] = useState('Content of the modal');
+    const [modalText, setModalText] = useState('¿ Realmente quieres cerrar la sesión ?');
 
     useEffect(() => {
         (counterAlert === 0) ? setAlert(false) : setAlert(true);
@@ -35,6 +35,12 @@ export default function HorizontalMenu() {
         }
     };
 
+    const menu = (
+        <Menu>
+            <Menu.Item key="0" danger onClick={() => handleOk('login')}>Cerrar sesión</Menu.Item>
+        </Menu>
+    );
+
     const handleOk = (buttonSelected) => {
         console.log(user[0])
 
@@ -48,15 +54,17 @@ export default function HorizontalMenu() {
                 // ACTUALIZAR STATUS DE USUARIO
                 const updateStatusUser = await doc(db, "users", user[0].uid);
                 await updateDoc(updateStatusUser, { status: false })
-                setUserState(false)
+                localStorage.removeItem('currentUser')
             }
 
             updateStatus()
 
-            setTimeout(() => {
-                setVisible(false);
-                setConfirmLoading(false);
-            }, 2000);
+            // setTimeout(() => {
+            //     setVisible(false);
+            //     setConfirmLoading(false);
+            // }, 2000);
+
+            setUserState(false)
         }
     };
 
@@ -82,21 +90,14 @@ export default function HorizontalMenu() {
                                 <Alert message="Informational Notes but nothing to see" type="info" showIcon style={{ padding: '5px 15px', marginBottom: 5 }} />
                                 <Alert message="Informational Notes conquerors in the worlds" type="info" showIcon style={{ padding: '5px 15px', marginBottom: 5 }} />
                             </Modal>
-                            <Nav.Link to="/User" style={{ display: 'flex', flexFlow: 'row nowrap' }} onClick={() => showModal('login')}>
-                                <Link to="/User" style={{ display: 'flex', flexFlow: 'row nowrap' }} onClick={() => showModal('login')}>
-                                    <UserOutlined style={{ fontSize: 20 }}/>
-                                    <p style={{ margin: 0, marginLeft: 5, color: 'rgb(255,100,73)' }}>{`Hi ${user[0].full_name}`}</p>
+                            <Nav.Link to="/User" style={{ display: 'flex', flexFlow: 'row nowrap' }}>
+                                <Link to="/User" style={{ display: 'flex', flexFlow: 'row nowrap' }}>
+                                    <UserOutlined style={{ fontSize: 20 }} />
+                                    <Dropdown overlay={menu} trigger={['click']}>
+                                        <p style={{ margin: 0, marginLeft: 5, color: 'rgb(255,100,73)' }}>{`Hi ${user[0].full_name}`}</p>
+                                    </Dropdown>
                                 </Link>
                             </Nav.Link>
-                            <Modal
-                                title='Nuevo modal'
-                                visible={visible}
-                                onOk={() => handleOk('login')}
-                                confirmLoading={confirmLoading}
-                                onCancel={handleCancel}
-                            >
-                                {modalText}
-                            </Modal>
                         </Nav> : <Login /> }
                     </div>
                 </Navbar>

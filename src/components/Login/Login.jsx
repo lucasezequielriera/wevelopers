@@ -22,7 +22,7 @@ export default function Login() {
             const userSelect = await userData.docs.map((user) => {
                 return user.data()
             })
-            console.log(userSelect)
+
             setUserSelected(userSelect)
             
             setLoading(false)
@@ -32,17 +32,22 @@ export default function Login() {
     }, [])
 
     const onFinish = async (values) => {
+        setLoading(true)
         // USUARIO LOGUEADO
-        const user = await userSelected.filter( usr => usr.username === values.username && usr.password === values.password )
+        const user = userSelected.filter( usr => usr.username === values.username && usr.password === values.password )
         if (user.length >= 1) {
             console.log(user)
             setUser(user)
-            setUserState(true)
+            localStorage.setItem('currentUser', JSON.stringify(user))
+            setUserState(user.length >= 1 ? true : false)
         }
 
         // ACTUALIZAR STATUS DE USUARIO
         const updateStatusUser = await doc(db, "users", user[0].uid);
         await updateDoc(updateStatusUser, { status: true })
+
+        setLoading(false)
+
     };
 
     return (

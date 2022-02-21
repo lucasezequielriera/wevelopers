@@ -18,8 +18,8 @@ const totalIssues = 0;
 
 export const DataProvider = ({ children }) => {
 
-    const [user, setUser] = useState([]);
-    const [userState, setUserState] = useState(user.length >= 1 ? user[0].status : false)
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem('currentUser')) ? JSON.parse(localStorage.getItem('currentUser')) : []);
+    const [userState, setUserState] = useState(user.length >= 1 ? true : false)
     const [data, setData] = useState(initialData);
     const [issues, setIssues] = useState(totalIssues)
     const [values, setValues] = useState(totalValues)
