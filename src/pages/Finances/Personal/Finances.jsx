@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import { DataContext } from '../../../context/DataContext';
 import { Redirect } from 'react-router-dom';
 import { collection, getDocs } from "firebase/firestore";
-import db from '../../../config/firebase/firebase';
+import { db } from '../../../config/firebase/firebase';
 
 export default function PersonalExpenses() {
   const {t, i18n} = useTranslation("global");

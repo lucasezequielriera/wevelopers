@@ -6,7 +6,7 @@ import './index.css';
 import { DataContext } from '../../context/DataContext';
 import { Redirect } from 'react-router-dom';
 import { addDoc, collection, getDocs, doc, updateDoc, deleteDoc } from "firebase/firestore";
-import db from '../../config/firebase/firebase';
+import { db } from '../../config/firebase/firebase';
 
 
     export default function MyIssues() {

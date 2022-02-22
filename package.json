@@ -27,6 +27,7 @@
     "react-redux": "^7.2.5",
     "react-router-dom": "^5.3.0",
     "react-scripts": "^1.1.5",
+    "reactfire": "^4.2.1",
     "sweetalert": "^2.1.2",
     "sweetalert2": "^11.1.6",
     "sweetalert2-react-content": "^4.1.1",

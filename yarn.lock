@@ -4987,7 +4987,7 @@
   dependencies:
     "locate-path" "^2.0.0"
 
-"firebase@^9.1.2":
+"firebase@^9.0.0", "firebase@^9.1.2":
   "integrity" "sha512-lLccGDhOosNhCXuywyGQ7ICJvcXoCRu4UUUyS42kMU3JYDNvxGhJX5DWtTQ4W+c/jZm444dVpJVK7QHS98XNqg=="
   "resolved" "https://registry.npmjs.org/firebase/-/firebase-9.1.2.tgz"
   "version" "9.1.2"
@@ -9464,13 +9464,21 @@
     "loose-envify" "^1.4.0"
     "prop-types" "^15.6.2"
 
-"react@*", "react@^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0", "react@^16.0.0 || ^17.0.0", "react@^16.8.3 || ^17", "react@^17.0.2", "react@>= 16.8.0", "react@>= 16.9.0", "react@>=0.14.0", "react@>=15", "react@>=15.0.0", "react@>=16.0.0", "react@>=16.3.0", "react@>=16.3.2", "react@>=16.4.0", "react@>=16.6.0", "react@>=16.8.0", "react@>=16.8.4", "react@>=16.9.0", "react@17.0.2":
+"react@*", "react@^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0", "react@^16.0.0 || ^17.0.0", "react@^16.8.3 || ^17", "react@^17.0.2", "react@>= 16.8.0", "react@>= 16.9.0", "react@>=0.14.0", "react@>=15", "react@>=15.0.0", "react@>=16 || experimental", "react@>=16.0.0", "react@>=16.3.0", "react@>=16.3.2", "react@>=16.4.0", "react@>=16.6.0", "react@>=16.8.0", "react@>=16.8.4", "react@>=16.9.0", "react@17.0.2":
   "integrity" "sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA=="
   "resolved" "https://registry.npmjs.org/react/-/react-17.0.2.tgz"
   "version" "17.0.2"
   dependencies:
     "loose-envify" "^1.1.0"
     "object-assign" "^4.1.1"
+
+"reactfire@^4.2.1":
+  "integrity" "sha512-wWATeAPnGmp44rkG+0F2788HnVNgsk0H1vYimeNnNa/RouzkOn58vJmYgKyQhWAOmZl9Smkx9bDsFlt3PevN0w=="
+  "resolved" "https://registry.npmjs.org/reactfire/-/reactfire-4.2.1.tgz"
+  "version" "4.2.1"
+  dependencies:
+    "rxfire" "^6.0.2"
+    "rxjs" "^6.6.3 || ^7.0.1"
 
 "read-pkg-up@^1.0.1":
   "integrity" "sha1-nWPBMnbAZZGNV/ACpX9AobZD+wI="
@@ -9958,6 +9966,20 @@
   "integrity" "sha1-Cx4Rr4vESDbwSmQH6S2kJGe3lEQ="
   "resolved" "https://registry.npmjs.org/rx-lite/-/rx-lite-4.0.8.tgz"
   "version" "4.0.8"
+
+"rxfire@^6.0.2":
+  "integrity" "sha512-77nkyffHh7jgfi1YA/N9RI+kWxYpgKk6GRML1lyersvaqbJt4hkvWwk1rWib9Rb5Lr5mT+Ha45lu7nM79sJCZA=="
+  "resolved" "https://registry.npmjs.org/rxfire/-/rxfire-6.0.3.tgz"
+  "version" "6.0.3"
+  dependencies:
+    "tslib" "^1.9.0 || ~2.1.0"
+
+"rxjs@^6.0.0 || ^7.0.0", "rxjs@^6.6.3 || ^7.0.1":
+  "integrity" "sha512-h5M3Hk78r6wAheJF0a5YahB1yRQKCsZ4MsGdZ5O9ETbVtjPcScGfrMmoOq7EBsCRzd4BDkvDJ7ogP8Sz5tTFiQ=="
+  "resolved" "https://registry.npmjs.org/rxjs/-/rxjs-7.5.4.tgz"
+  "version" "7.5.4"
+  dependencies:
+    "tslib" "^2.1.0"
 
 "safe-buffer@^5.0.1", "safe-buffer@^5.1.0", "safe-buffer@^5.1.1", "safe-buffer@^5.1.2", "safe-buffer@>=5.1.0", "safe-buffer@~5.1.0", "safe-buffer@~5.1.1", "safe-buffer@5.1.2":
   "integrity" "sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g=="
@@ -11008,6 +11030,11 @@
   "integrity" "sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg=="
   "resolved" "https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz"
   "version" "1.14.1"
+
+"tslib@^1.9.0 || ~2.1.0":
+  "integrity" "sha512-hcVC3wYEziELGGmEEXue7D75zbwIIVUMWAVbHItGPx0ziyXxrOMQx4rQEVEV45Ut/1IotuEvwqPopzIOkDMf0A=="
+  "resolved" "https://registry.npmjs.org/tslib/-/tslib-2.1.0.tgz"
+  "version" "2.1.0"
 
 "tslib@^2.0.0", "tslib@^2.0.3", "tslib@^2.1.0":
   "integrity" "sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw=="

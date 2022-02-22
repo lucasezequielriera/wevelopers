@@ -3,7 +3,7 @@ import { Form, Input, Button } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { DataContext } from '../../context/DataContext';
 import { collection, getDocs, doc, updateDoc, serverTimestamp } from "firebase/firestore";
-import db from '../../config/firebase/firebase';
+import { db } from '../../config/firebase/firebase';
 
 export default function Login() {
 
@@ -35,6 +35,7 @@ export default function Login() {
         setLoading(true)
         // USUARIO LOGUEADO
         const user = userSelected.filter( usr => usr.username === values.username && usr.password === values.password )
+        
         if (user.length >= 1) {
             console.log(user)
             setUser(user)

@@ -1,12 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Layout, Breadcrumb, Avatar, Input, Button, Tooltip, Spin, notification, Space, Upload, Image } from 'antd';
-import { UserOutlined, InfoCircleOutlined, EyeInvisibleOutlined, EyeTwoTone, KeyOutlined } from '@ant-design/icons';
+import { Layout, Breadcrumb, Avatar, Input, Button, Tooltip, Spin, notification, Space, Upload, Image, message } from 'antd';
+import { UserOutlined, InfoCircleOutlined, EyeInvisibleOutlined, EyeTwoTone, KeyOutlined, LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { DataContext } from '../../context/DataContext';
 import { Redirect } from 'react-router-dom';
 import { addDoc, collection, getDocs, doc, updateDoc, deleteDoc } from "firebase/firestore";
-import db from '../../config/firebase/firebase';
+import { db } from '../../config/firebase/firebase';
 import { Formik, Form } from 'formik';
-import ImgCrop from 'antd-img-crop';
+import { getStorage, ref, uploadBytes } from "firebase/storage";
 
 
 export default function Settings() {
@@ -14,36 +14,33 @@ export default function Settings() {
     const { Content } = Layout;
 
     const { userState, user, setUser } = useContext(DataContext)
+    const storage = getStorage();
 
-    const [buttonState, setButtonState] = useState(true)
     const [loading, setLoading] = useState(false)
-    const [fileList, setFileList] = useState([
-        {
-          uid: '-1',
-          name: 'image.png',
-          status: 'done',
-          url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-        },
-    ]);
+    const [reload, setReload] = useState(false)
+    const [imagen, setImagen] = useState()
 
-    const onChange = ({ fileList: newFileList }) => {
-        setFileList(newFileList);
-    };
-    
-    const onPreview = async file => {
-    let src = file.url;
-    if (!src) {
-        src = await new Promise(resolve => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file.originFileObj);
-        reader.onload = () => resolve(reader.result);
-        });
-    }
-    const image = new Image();
-    image.src = src;
-    const imgWindow = window.open(src);
-    imgWindow.document.write(image.outerHTML);
-    };
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true)
+
+            // TODOS LOS USUARIOS //
+            const userData = await getDocs(collection(db, "users"));
+            const userSelect = await userData.docs.map((user) => {
+                return user.data()
+            })
+
+            // USUARIO LOGUEADO
+            const currentUser = userSelect.filter( usr => usr.username === JSON.parse(localStorage.getItem('currentUser'))[0].username && usr.password === JSON.parse(localStorage.getItem('currentUser'))[0].password )
+
+            setUser(currentUser)
+
+            setLoading(false)
+            setReload(0)
+        }
+
+        fetchData()
+    }, [reload])
 
     const openNotificationWithIcon = type => {
         notification[type]({
@@ -58,7 +55,6 @@ export default function Settings() {
         // ACTUALIZAR STATUS DE USUARIO
         const updateStatusUser = await doc(db, "users", user[0].uid);
         await updateDoc(updateStatusUser, values)
-        setButtonState(true)
 
         // TODA LA DATA GLOBAL DEL USUARIO //
         const globalData = await getDocs(collection(db, "users"));
@@ -72,6 +68,37 @@ export default function Settings() {
         openNotificationWithIcon('success')
     }
 
+    //OBTENIENDO LA IMAGEN
+    const changeImagen = e => {
+        setLoading(true)
+        setReload(true)
+
+        const imagen = e.target.files[0]
+
+        uploadImage(imagen)
+    }
+
+    //FUNCION PARA GUARDAR LA IMAGEN EN FIREBASE
+    const uploadImage = async (imagen) => {
+        const fileRef = ref(storage, `photosProfile/${imagen.name}`); // nombre del archivo
+
+        // 'file' comes from the Blob or File API
+        uploadBytes(fileRef, imagen)
+        .then( async snapshot => {
+            console.log('Uploaded a blob or file!');
+            // ACTUALIZAR FOTO DE USUARIO EN FIREBASE
+            const updateStatusUser = await doc(db, "users", user[0].uid);
+            await updateDoc(updateStatusUser, { photo: `https://firebasestorage.googleapis.com/v0/b/${process.env.REACT_APP_FIREBASE_STORAGEBUCKET}/o/photosProfile%2F${snapshot.metadata.name}?alt=media&token=d3e7dfcb-5249-49f5-b58c-fd0d797a6e4a` })
+
+            user[0].photo = `https://firebasestorage.googleapis.com/v0/b/${process.env.REACT_APP_FIREBASE_STORAGEBUCKET}/o/photosProfile%2F${snapshot.metadata.name}?alt=media&token=d3e7dfcb-5249-49f5-b58c-fd0d797a6e4a`
+
+            setImagen(snapshot.metadata.name)
+            setReload(reload+1)
+        })
+        setLoading(false)
+        setReload(false)
+    };
+
     const initialValues = {
         full_name: user[0].full_name,
         age: user[0].age,
@@ -80,7 +107,7 @@ export default function Settings() {
         password: user[0].password
     }
 
-    if (loading === false && user.length >= 1) {
+    if (loading === false && user.length >= 1 && !reload) {
     return (
         userState === true ?
             <Content style={{ margin: '0 16px' }}>
@@ -90,44 +117,23 @@ export default function Settings() {
                 </Breadcrumb>
 
                 <Formik initialValues={initialValues}
-                onChange={e => console.log(e)}
-                onSubmit={values => updateStatus(values) }
+                onSubmit={values => updateStatus(values)}
                 >
                     {({ values, errors, touched, handleBlur, handleSubmit, handleChange, isSubmitting }) => (
 
                         <div style={{ padding: 24, minHeight: 200, display: 'flex', flexFlow: 'column nowrap', justifyContent: 'center', alignItems: 'center' }}>
                             <Form onFinish={handleSubmit} style={{ display: 'flex', flexFlow: 'column', justifyContent: 'center', alignItems: 'center' }}>
                                 {/* User Image */}
-                                <ImgCrop rotate>
-                                    <Upload
-                                    action="https://instagram.faep14-2.fna.fbcdn.net/v/t51.2885-19/s320x320/271108729_819065048945141_8191994098723336004_n.jpg?_nc_ht=instagram.faep14-2.fna.fbcdn.net&_nc_cat=105&_nc_ohc=oFYCYqZXcfUAX8cAuIO&edm=ABfd0MgBAAAA&ccb=7-4&oh=00_AT_x-5hKElbpmq8ncq7_kou40B5sATogp7cRqHNuBExudw&oe=6217ABF9&_nc_sid=7bff83"
-                                    listType="picture-card"
-                                    fileList={fileList}
-                                    onChange={onChange}
-                                    onPreview={onPreview}
-                                    >
-                                    {fileList.length < 1 && '+ Upload'}
-                                    </Upload>
-                                </ImgCrop>
-                                <Avatar size={130} icon={<UserOutlined />} src="https://instagram.faep14-2.fna.fbcdn.net/v/t51.2885-19/s320x320/271108729_819065048945141_8191994098723336004_n.jpg?_nc_ht=instagram.faep14-2.fna.fbcdn.net&_nc_cat=105&_nc_ohc=oFYCYqZXcfUAX8cAuIO&edm=ABfd0MgBAAAA&ccb=7-4&oh=00_AT_x-5hKElbpmq8ncq7_kou40B5sATogp7cRqHNuBExudw&oe=6217ABF9&_nc_sid=7bff83" style={{ backgroundColor: '#cdcdcd' }} />
-                                <Avatar
-                                    src={
-                                        <Image
-                                        src="https://drive.google.com/file/d/1I4tPuDAnYMzNrgdeMQJJ7UJ3dJZxhKvp/view?usp=sharing"
-                                        style={{
-                                            width: 32,
-                                        }}
-                                        />
-                                    }
-                                />
+                                <input type="file" name="imagen" onChange={changeImagen} style={{ width: 130, height: 130, position: 'absolute', top: 180, zIndex: 1, backgroundColor: 'transparent', contentVisibility: 'hidden' }} />
+                                <Avatar size={130} src={user[0].photo} icon={!imagen ? <UserOutlined /> : ""} />
                                 {/* Fully Name */}
                                 <Input type="text" id="full_name" name="full_name" style={{ width: 350, marginTop: 20 }} onChange={(e) => handleChange(e)} placeholder="Enter your full name" defaultValue={values.full_name} />
                                 {/* Age */}
                                 <Input type="number" id="age" name="age" style={{ width: 350, marginTop: 10 }} onChange={(e) => handleChange(e)} placeholder="Enter your age" defaultValue={values.age} />
                                 {/* City */}
-                                <Input  type="text" id="country" name="country" style={{ width: 350, marginTop: 10 }} onChange={(e) => handleChange(e)} placeholder="Enter your city" defaultValue={values.country} />
+                                <Input type="text" id="country" name="country" style={{ width: 350, marginTop: 10 }} onChange={(e) => handleChange(e)} placeholder="Enter your city" defaultValue={values.country} />
                                 {/* User */}
-                                <Input  type="text" id="username" name="username" style={{ width: 350, marginTop: 10 }} onChange={(e) => handleChange(e)} placeholder="Enter your username" prefix={ <UserOutlined className="site-form-item-icon" style={{ color: 'rgb(0,142,250)' }} /> }
+                                <Input type="text" id="username" name="username" style={{ width: 350, marginTop: 10 }} onChange={(e) => handleChange(e)} placeholder="Enter your username" prefix={ <UserOutlined className="site-form-item-icon" style={{ color: 'rgb(0,142,250)' }} /> }
                                 suffix={
                                     <Tooltip title="name@email.com or username">
                                         <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />

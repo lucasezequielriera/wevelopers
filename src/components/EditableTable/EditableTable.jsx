@@ -4,7 +4,7 @@ import { CheckCircleOutlined, AppstoreAddOutlined, DollarOutlined, DeleteOutline
 import Swal from 'sweetalert2';
 import moment from 'moment';
 import { addDoc, collection, getDocs, doc, updateDoc, deleteDoc } from "firebase/firestore";
-import db from '../../config/firebase/firebase';
+import { db } from '../../config/firebase/firebase';
 
 const EditableTable = ({ tableSize, data, marginBottom, title, response, tables, id }) => {
 

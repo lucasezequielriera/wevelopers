@@ -8,7 +8,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import { DataContext } from '../../context/DataContext';
 import Login from '../Login/Login';
 import { collection, getDocs, doc, updateDoc, serverTimestamp } from "firebase/firestore";
-import db from '../../config/firebase/firebase';
+import { db } from '../../config/firebase/firebase';
 
 export default function HorizontalMenu() {
 

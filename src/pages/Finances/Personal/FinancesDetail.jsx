@@ -6,7 +6,7 @@ import EditableTable from '../../../components/EditableTable/EditableTable';
 import { DataContext } from '../../../context/DataContext';
 import { collection, getDocs, updateDoc, doc, getDoc } from "firebase/firestore";
 import { Redirect } from 'react-router-dom';
-import db from '../../../config/firebase/firebase';
+import { db } from '../../../config/firebase/firebase';
 
 export default function PersonalExpensesDetail() {
     const {t, i18n} = useTranslation("global");
