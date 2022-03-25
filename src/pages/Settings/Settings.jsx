@@ -124,8 +124,10 @@ export default function Settings() {
                         <div style={{ padding: 24, minHeight: 200, display: 'flex', flexFlow: 'column nowrap', justifyContent: 'center', alignItems: 'center' }}>
                             <Form onFinish={handleSubmit} style={{ display: 'flex', flexFlow: 'column', justifyContent: 'center', alignItems: 'center' }}>
                                 {/* User Image */}
-                                <input type="file" name="imagen" onChange={changeImagen} style={{ width: 130, height: 130, position: 'absolute', top: 180, zIndex: 1, backgroundColor: 'transparent', contentVisibility: 'hidden' }} />
-                                <Avatar size={130} src={user[0].photo} icon={!imagen ? <UserOutlined /> : ""} />
+                                <Tooltip title={!user[0].photo ? "Has click para elegir una imagen de perfil" : "Has click para cambiar tu foto de perfil"} color={'rgb(0, 21, 40)'}>
+                                    <input type="file" name="imagen" onChange={changeImagen} style={{ width: 130, height: 130, position: 'absolute', top: 180, zIndex: 1, backgroundColor: 'transparent', contentVisibility: 'hidden' }} />
+                                    <Avatar size={130} src={user[0].photo} icon={!imagen ? <UserOutlined /> : ""} />
+                                </Tooltip>
                                 {/* Fully Name */}
                                 <Input type="text" id="full_name" name="full_name" style={{ width: 350, marginTop: 20 }} onChange={(e) => handleChange(e)} placeholder="Enter your full name" defaultValue={values.full_name} />
                                 {/* Age */}
